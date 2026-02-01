@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDisplayName</key>
+	<string>Rally</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Rally needs microphone access to record your workout descriptions.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Rally uses speech recognition to transcribe your workout descriptions, even when offline.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Rally needs photo library access to add photos and videos to document your workouts.</string>
+</dict>
+</plist>
