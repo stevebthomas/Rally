@@ -26,7 +26,7 @@ struct WorkoutHistoryView: View {
                 }
                 .padding()
             }
-            .background(Color(red: 245/255, green: 246/255, blue: 247/255))
+            .background(Color(.systemBackground))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {

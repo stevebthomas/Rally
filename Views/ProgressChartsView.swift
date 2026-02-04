@@ -31,7 +31,7 @@ struct ProgressChartsView: View {
                 }
                 .padding()
             }
-            .background(Color(red: 245/255, green: 246/255, blue: 247/255))
+            .background(Color(.systemBackground))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
@@ -246,10 +246,17 @@ struct PRRow: View {
     let record: PersonalRecord
     let unit: WeightUnit
 
+    private let goldColor = Color(red: 1.0, green: 0.84, blue: 0.0)  // #FFD700
+
     var body: some View {
-        HStack {
+        HStack(spacing: 12) {
+            // Trophy with light gold background
             Image(systemName: "trophy.fill")
-                .foregroundColor(.yellow)
+                .font(.title3)
+                .foregroundColor(goldColor)
+                .frame(width: 36, height: 36)
+                .background(goldColor.opacity(0.15))
+                .cornerRadius(8)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(record.exerciseName)
@@ -276,6 +283,10 @@ struct PRRow: View {
         .padding()
         .background(Color(.secondarySystemBackground))
         .cornerRadius(12)
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(goldColor, lineWidth: 1.5)
+        )
     }
 }
 

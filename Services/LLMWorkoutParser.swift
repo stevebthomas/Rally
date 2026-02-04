@@ -29,8 +29,9 @@ class LLMWorkoutParser {
     RULES:
     1. Identify: exercise name, sets, reps, weight, and unit (lbs/kg)
     2. Default to 1 set if not specified
-    3. Default to 10 reps if not specified
+    3. Default to 1 rep if not specified (when weight is mentioned without reps, assume it's a max/PR attempt)
     4. For bodyweight exercises, set weight to null and isBodyweight to true
+    5. Handle singular "rep" (e.g., "1 rep", "a rep", "single rep" all mean 1 rep)
 
     GYM SHORTHAND DICTIONARY:
 

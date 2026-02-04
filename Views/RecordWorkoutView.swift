@@ -45,9 +45,15 @@ struct RecordWorkoutView: View {
 
     // Computed properties for stats
     private var workoutsThisWeek: Int {
-        let calendar = Calendar.current
-        let weekAgo = calendar.date(byAdding: .day, value: -7, to: Date()) ?? Date()
-        return workouts.filter { $0.date >= weekAgo }.count
+        var calendar = Calendar.current
+        calendar.firstWeekday = 1  // 1 = Sunday
+
+        // Get start of current week (Sunday)
+        let today = Date()
+        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: today)
+        guard let startOfWeek = calendar.date(from: components) else { return 0 }
+
+        return workouts.filter { $0.date >= startOfWeek }.count
     }
 
     private var lastWorkout: Workout? {
@@ -77,8 +83,8 @@ struct RecordWorkoutView: View {
         NavigationStack {
             GeometryReader { geometry in
                 ZStack {
-                    // Match background to logo image background
-                    Color(red: 245/255, green: 246/255, blue: 247/255)
+                    // Background adapts to light/dark mode
+                    Color(.systemBackground)
                         .ignoresSafeArea()
 
                     // Background scroll content (transcriptions, etc.)

@@ -205,6 +205,16 @@ class OfflineWorkoutParser {
         "hack squat": "Hack Squat",
         "hack squats": "Hack Squat",
         "smith machine squat": "Smith Machine Squat",
+        "smith machine": "Smith Machine Press",
+        "smith press": "Smith Machine Press",
+        "smith machine press": "Smith Machine Press",
+        "incline smith": "Incline Smith Machine Press",
+        "incline smith machine": "Incline Smith Machine Press",
+        "incline smith machine press": "Incline Smith Machine Press",
+        "incline smith press": "Incline Smith Machine Press",
+        "decline smith": "Decline Smith Machine Press",
+        "decline smith machine": "Decline Smith Machine Press",
+        "decline smith machine press": "Decline Smith Machine Press",
         "box squat": "Box Squat",
         "box squats": "Box Squat",
         "pause squat": "Pause Squat",
@@ -413,6 +423,33 @@ class OfflineWorkoutParser {
         "kettlebell swings": "Kettlebell Swings",
         "kb swing": "Kettlebell Swings",
         "kb swings": "Kettlebell Swings",
+        "kettlebell clean": "Kettlebell Clean",
+        "kb clean": "Kettlebell Clean",
+        "kettlebell press": "Kettlebell Press",
+        "kb press": "Kettlebell Press",
+        "kettlebell snatch": "Kettlebell Snatch",
+        "kb snatch": "Kettlebell Snatch",
+        "kettlebell row": "Kettlebell Row",
+        "kb row": "Kettlebell Row",
+        "kettlebell deadlift": "Kettlebell Deadlift",
+        "kb deadlift": "Kettlebell Deadlift",
+        "kettlebell squat": "Kettlebell Squat",
+        "kb squat": "Kettlebell Squat",
+        "kettlebell goblet squat": "Goblet Squat",
+        "kettlebell lunge": "Kettlebell Lunges",
+        "kb lunge": "Kettlebell Lunges",
+        "kettlebell lunges": "Kettlebell Lunges",
+        "kb lunges": "Kettlebell Lunges",
+        "kettlebell curl": "Kettlebell Curls",
+        "kb curl": "Kettlebell Curls",
+        "kettlebell curls": "Kettlebell Curls",
+        "kb curls": "Kettlebell Curls",
+        "kettlebell tricep extension": "Kettlebell Tricep Extension",
+        "kb tricep extension": "Kettlebell Tricep Extension",
+        "kettlebell windmill": "Kettlebell Windmill",
+        "kb windmill": "Kettlebell Windmill",
+        "kettlebell halo": "Kettlebell Halo",
+        "kb halo": "Kettlebell Halo",
         "turkish get up": "Turkish Get Up",
         "turkish getup": "Turkish Get Up",
         "battle rope": "Battle Ropes",
@@ -447,6 +484,8 @@ class OfflineWorkoutParser {
         "ten": "10", "eleven": "11", "twelve": "12", "thirteen": "13",
         "fourteen": "14", "fifteen": "15", "sixteen": "16", "seventeen": "17",
         "eighteen": "18", "nineteen": "19", "twenty": "20",
+        // Frequency words (expand to include "times" so patterns match)
+        "once": "1 times", "twice": "2 times", "thrice": "3 times",
     ]
 
     /// Replace spoken number words with digits so regex patterns can match
@@ -693,7 +732,9 @@ class OfflineWorkoutParser {
         var parsedSets: [ParsedSet] = []
 
         let numSets = sets ?? 1
-        let numReps = reps ?? 10
+        // If weight is specified but no reps, assume 1 rep (likely a max/PR)
+        // If no weight and no reps, default to 1 rep as well
+        let numReps = reps ?? 1
         let setWeight = isBodyweight ? 0.0 : (weight ?? 0.0)
         let setUnit = unit ?? .lbs
 
@@ -756,7 +797,7 @@ class OfflineWorkoutParser {
 
             parsedSets.append(ParsedSet(
                 setNumber: i + 1,
-                reps: reps ?? 10,
+                reps: reps ?? 1,
                 weight: isBodyweight ? 0.0 : (weight ?? 0.0),
                 unit: unit ?? .lbs
             ))
@@ -804,8 +845,22 @@ class OfflineWorkoutParser {
 
     /// Extract number of reps from text
     private func extractReps(from text: String) -> Int? {
+        let lower = text.lowercased()
+
+        // Check for singular rep phrases first (returns 1)
+        let singularPatterns = [
+            "a single rep", "single rep", "one rep", "1 rep", "a rep",
+            "for a single", "just one", "for one", "for 1"
+        ]
+        for pattern in singularPatterns {
+            if lower.contains(pattern) {
+                return 1
+            }
+        }
+
         let patterns = [
             #"(\d+)\s*reps?"#,
+            #"(\d+)\s*times?"#,  // "5 times" or "twice" (converted to "2 times")
             #"sets?\s*of\s*(\d+)"#,  // "4 sets of 8" - second number is reps
             #"for\s*(\d+)"#,
             #"\d+\s*x\s*(\d+)"#,  // "3x10" format - second number is reps
@@ -859,6 +914,27 @@ class OfflineWorkoutParser {
         if let match = text.range(of: atPattern, options: .regularExpression) {
             let matchedText = String(text[match])
             if let number = extractFirstDouble(from: matchedText) {
+                return (number, .lbs)
+            }
+        }
+
+        // Check for standalone weight after NxN pattern (e.g., "3x10 225 bench")
+        let afterSetsRepsPattern = #"\d+\s*x\s*\d+\s+(\d+\.?\d*)"#
+        if let match = text.range(of: afterSetsRepsPattern, options: [.regularExpression, .caseInsensitive]) {
+            let matchedText = String(text[match])
+            // Get the last number (weight) from the match
+            let numbers = matchedText.components(separatedBy: CharacterSet.decimalDigits.inverted).filter { !$0.isEmpty }
+            if numbers.count >= 3, let weight = Double(numbers[2]), weight >= 20 {
+                return (weight, .lbs)
+            }
+        }
+
+        // Check for standalone 3-digit number (likely a weight, assume lbs)
+        // This catches patterns like "bench 225" or "225 bench press"
+        let standalonePattern = #"(?<!\d)\b(\d{3})\b(?!\s*x)(?!\s*reps?)(?!\s*sets?)"#
+        if let match = text.range(of: standalonePattern, options: .regularExpression) {
+            let matchedText = String(text[match])
+            if let number = extractFirstDouble(from: matchedText), number >= 45 {
                 return (number, .lbs)
             }
         }
