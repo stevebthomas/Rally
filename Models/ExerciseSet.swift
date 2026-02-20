@@ -48,12 +48,17 @@ final class ExerciseSet {
     var setNumber: Int
     var reps: Int
     var weight: Double
-    var unit: WeightUnit
+    var unitRaw: String?  // Stored as optional for migration compatibility
     var duration: Int?  // Duration in seconds (for time-based exercises like planks)
     var setTypeRaw: String?  // Stored as optional for migration compatibility
     var exercise: Exercise?
 
-    // Computed property with default fallback for existing data
+    // Computed properties with defaults for backward compatibility
+    var unit: WeightUnit {
+        get { unitRaw.flatMap { WeightUnit(rawValue: $0) } ?? .lbs }
+        set { unitRaw = newValue.rawValue }
+    }
+
     var setType: SetType {
         get { setTypeRaw.flatMap { SetType(rawValue: $0) } ?? .normal }
         set { setTypeRaw = newValue.rawValue }
@@ -98,7 +103,7 @@ final class ExerciseSet {
         self.setNumber = setNumber
         self.reps = reps
         self.weight = weight
-        self.unit = unit
+        self.unitRaw = unit.rawValue
         self.duration = duration
         self.setTypeRaw = setType.rawValue
         self.exercise = exercise

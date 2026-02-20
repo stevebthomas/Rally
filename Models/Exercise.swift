@@ -96,19 +96,30 @@ enum MuscleGroup: String, Codable, CaseIterable {
 final class Exercise {
     var id: UUID
     var name: String
-    var category: ExerciseCategory
-    var equipment: Equipment
-    var primaryMusclesRaw: String  // Stored as comma-separated string
+    var categoryRaw: String?  // Stored as optional string for migration
+    var equipmentRaw: String?  // Stored as optional string for migration
+    var primaryMusclesRaw: String?  // Stored as comma-separated string (optional for migration)
     var notes: String?  // Notes for this exercise (optional for migration)
     var workout: Workout?
 
     @Relationship(deleteRule: .cascade, inverse: \ExerciseSet.exercise)
     var sets: [ExerciseSet]
 
+    // Computed properties with defaults for backward compatibility
+    var category: ExerciseCategory {
+        get { categoryRaw.flatMap { ExerciseCategory(rawValue: $0) } ?? .weighted }
+        set { categoryRaw = newValue.rawValue }
+    }
+
+    var equipment: Equipment {
+        get { equipmentRaw.flatMap { Equipment(rawValue: $0) } ?? .other }
+        set { equipmentRaw = newValue.rawValue }
+    }
+
     // Computed property for muscle groups
     var primaryMuscles: [MuscleGroup] {
         get {
-            primaryMusclesRaw.split(separator: ",")
+            (primaryMusclesRaw ?? "").split(separator: ",")
                 .compactMap { MuscleGroup(rawValue: String($0)) }
         }
         set {
@@ -128,8 +139,8 @@ final class Exercise {
     ) {
         self.id = id
         self.name = name
-        self.category = category
-        self.equipment = equipment
+        self.categoryRaw = category.rawValue
+        self.equipmentRaw = equipment.rawValue
         self.primaryMusclesRaw = primaryMuscles.map { $0.rawValue }.joined(separator: ",")
         self.notes = notes
         self.workout = workout
