@@ -130,7 +130,7 @@ struct MediaPreviewGrid: View {
                 HStack {
                     Text("Media (\(mediaItems.count))")
                         .font(.subheadline)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(.secondaryText)
                     Spacer()
                     Button("Clear All") {
                         mediaItems.removeAll()
@@ -174,7 +174,7 @@ struct MediaThumbnailView: View {
                     .frame(width: 80, height: 80)
                     .overlay(
                         Image(systemName: item.type == .video ? "video" : "photo")
-                            .foregroundColor(.secondary)
+                            .foregroundColor(.secondaryText)
                     )
             }
 
@@ -391,7 +391,9 @@ struct SavedMediaThumbnail: View {
 struct FullScreenMediaView: View {
     let media: WorkoutMedia
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) private var colorScheme
     @State private var image: UIImage?
+    @State private var player: AVPlayer?
 
     var body: some View {
         NavigationStack {
@@ -404,23 +406,52 @@ struct FullScreenMediaView: View {
                     } else {
                         ProgressView()
                     }
+                } else if let player = player {
+                    VideoPlayer(player: player)
+                        .onAppear {
+                            player.play()
+                        }
                 } else {
-                    VideoPlayer(player: AVPlayer(url: MediaService.shared.getMediaURL(filename: media.filename)))
+                    ProgressView()
                 }
             }
+            .background(colorScheme == .dark ? Color.black : Color.white)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Done") {
+                        player?.pause()
                         dismiss()
                     }
                 }
             }
+            .toolbarBackground(colorScheme == .dark ? Color.black : Color.white, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
         }
         .onAppear {
             if media.mediaType == .photo {
                 image = MediaService.shared.loadImage(filename: media.filename)
+            } else {
+                // Configure audio session to allow playback with AirPods and mix with other audio
+                configureAudioSession()
+                let url = MediaService.shared.getMediaURL(filename: media.filename)
+                player = AVPlayer(url: url)
             }
+        }
+        .onDisappear {
+            player?.pause()
+            player = nil
+        }
+    }
+
+    private func configureAudioSession() {
+        do {
+            // Use playback category to allow audio through AirPods
+            // Use mixWithOthers to not interrupt other audio if user prefers
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [.mixWithOthers])
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print("Failed to configure audio session: \(error)")
         }
     }
 }

@@ -92,11 +92,11 @@ final class AudioRecorder: NSObject, ObservableObject {
         errorMessage = nil
         recordingDuration = 0
 
-        // Configure audio session
+        // Configure audio session - allow mixing with other audio so music doesn't stop
         let audioSession = AVAudioSession.sharedInstance()
         do {
-            try audioSession.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker])
-            try audioSession.setActive(true)
+            try audioSession.setCategory(.playAndRecord, mode: .default, options: [.defaultToSpeaker, .allowBluetooth, .allowBluetoothA2DP, .mixWithOthers])
+            try audioSession.setActive(true, options: [])
         } catch {
             errorMessage = "Failed to configure audio session: \(error.localizedDescription)"
             return
@@ -148,8 +148,8 @@ final class AudioRecorder: NSObject, ObservableObject {
         isRecording = false
         stopTimer()
 
-        // Deactivate audio session
-        try? AVAudioSession.sharedInstance().setActive(false)
+        // Deactivate audio session and notify others to resume
+        try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
 
         // Haptic feedback
         #if canImport(UIKit)
@@ -174,7 +174,7 @@ final class AudioRecorder: NSObject, ObservableObject {
         }
         recordingURL = nil
 
-        try? AVAudioSession.sharedInstance().setActive(false)
+        try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
     }
 
     private func startTimer() {

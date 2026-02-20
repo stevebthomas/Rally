@@ -8,18 +8,29 @@ struct ContentView: View {
     @State private var selectedTab = 0
 
     init() {
-        // Configure tab bar appearance with glass effect
+        // Configure tab bar with glass/blur effect
         let tabBarAppearance = UITabBarAppearance()
-        tabBarAppearance.configureWithDefaultBackground()
-        tabBarAppearance.backgroundEffect = UIBlurEffect(style: .systemMaterial)
-        tabBarAppearance.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.3)
+        tabBarAppearance.configureWithTransparentBackground()
+        tabBarAppearance.backgroundEffect = UIBlurEffect(style: .systemThinMaterialDark)
+        tabBarAppearance.backgroundColor = UIColor.white.withAlphaComponent(0.05)
         UITabBar.appearance().standardAppearance = tabBarAppearance
         UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
 
-        // Configure navigation bar appearance - adapts to dark mode
+        // Configure navigation bar with glass/blur effect
         let navBarAppearance = UINavigationBarAppearance()
-        navBarAppearance.configureWithDefaultBackground()
-        navBarAppearance.backgroundColor = .systemBackground
+        navBarAppearance.configureWithTransparentBackground()
+        navBarAppearance.backgroundEffect = UIBlurEffect(style: .systemThinMaterialDark)
+        navBarAppearance.backgroundColor = UIColor.white.withAlphaComponent(0.05)
+        // Beige color for nav bar text (matches primaryText)
+        let beigeColor = UIColor(red: 245/255, green: 243/255, blue: 237/255, alpha: 1)
+        navBarAppearance.titleTextAttributes = [
+            .foregroundColor: beigeColor,
+            .font: UIFont.systemFont(ofSize: 17, weight: .semibold)
+        ]
+        navBarAppearance.largeTitleTextAttributes = [
+            .foregroundColor: beigeColor,
+            .font: UIFont.systemFont(ofSize: 34, weight: .bold)
+        ]
         UINavigationBar.appearance().standardAppearance = navBarAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
         UINavigationBar.appearance().compactAppearance = navBarAppearance
@@ -32,24 +43,32 @@ struct ContentView: View {
                     Label("Record", systemImage: "mic.fill")
                 }
                 .tag(0)
+                .toolbarBackground(.ultraThinMaterial, for: .tabBar)
+                .toolbarBackground(.visible, for: .tabBar)
 
             WorkoutHistoryView()
                 .tabItem {
                     Label("History", systemImage: "calendar")
                 }
                 .tag(1)
+                .toolbarBackground(.ultraThinMaterial, for: .tabBar)
+                .toolbarBackground(.visible, for: .tabBar)
 
             ProgressChartsView()
                 .tabItem {
                     Label("Progress", systemImage: "chart.line.uptrend.xyaxis")
                 }
                 .tag(2)
+                .toolbarBackground(.ultraThinMaterial, for: .tabBar)
+                .toolbarBackground(.visible, for: .tabBar)
 
             SettingsView()
                 .tabItem {
                     Label("Settings", systemImage: "gearshape.fill")
                 }
                 .tag(3)
+                .toolbarBackground(.ultraThinMaterial, for: .tabBar)
+                .toolbarBackground(.visible, for: .tabBar)
         }
         .tint(.rallyOrange)
     }
@@ -57,6 +76,7 @@ struct ContentView: View {
 
 /// Settings view for API key configuration and profile
 struct SettingsView: View {
+    @Environment(\.modelContext) private var modelContext
     @AppStorage("openai_api_key") private var apiKey = ""
     @AppStorage("weight_unit") private var preferredUnit = WeightUnit.lbs.rawValue
     @AppStorage("userName") private var userName = ""
@@ -64,11 +84,14 @@ struct SettingsView: View {
     @AppStorage("userWeight") private var userWeight: Double = 0
     @AppStorage("userHeight") private var userHeight: Double = 0
     @AppStorage("notificationsEnabled") private var notificationsEnabled = true
+    @AppStorage("weeklyWorkoutGoal") private var weeklyGoal: Int = 5
     @State private var showingAPIKeyField = false
     @State private var tempAPIKey = ""
     @State private var isValidating = false
     @State private var validationResult: Bool?
     @State private var weightText = ""
+    @State private var showingTestDataConfirmation = false
+    @State private var showingClearDataConfirmation = false
 
     private var birthdayBinding: Binding<Date> {
         Binding(
@@ -118,7 +141,7 @@ struct SettingsView: View {
                                 }
                             }
                         Text("lbs")
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                     }
 
                     NavigationLink {
@@ -143,7 +166,7 @@ struct SettingsView: View {
                             Text("Height")
                             Spacer()
                             Text(userHeight > 0 ? "\(Int(userHeight) / 12)' \(Int(userHeight) % 12)\"" : "Not set")
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Color.secondaryText)
                         }
                     }
                 }
@@ -173,7 +196,7 @@ struct SettingsView: View {
                                 .foregroundColor(.red)
                         } else {
                             Text("••••••\(apiKey.suffix(4))")
-                                .foregroundColor(.secondary)
+                                .foregroundColor(.secondaryText)
                         }
                     }
                     .contentShape(Rectangle())
@@ -192,6 +215,8 @@ struct SettingsView: View {
                         Text("Pounds (lbs)").tag(WeightUnit.lbs.rawValue)
                         Text("Kilograms (kg)").tag(WeightUnit.kg.rawValue)
                     }
+
+                    Stepper("Weekly Goal: \(weeklyGoal) days", value: $weeklyGoal, in: 1...7)
                 }
 
                 Section("About") {
@@ -199,7 +224,7 @@ struct SettingsView: View {
                         Text("Version")
                         Spacer()
                         Text("1.1.0")
-                            .foregroundColor(.secondary)
+                            .foregroundColor(.secondaryText)
                     }
 
                     Link(destination: URL(string: "https://platform.openai.com/api-keys")!) {
@@ -210,10 +235,37 @@ struct SettingsView: View {
                         }
                     }
                 }
+
+                #if DEBUG
+                Section("Developer") {
+                    Button {
+                        TestDataService.shared.populateWeekOfWorkouts(modelContext: modelContext)
+                        showingTestDataConfirmation = true
+                    } label: {
+                        HStack {
+                            Image(systemName: "hammer.fill")
+                                .foregroundColor(.rallyOrange)
+                            Text("Populate Test Data")
+                        }
+                    }
+
+                    Button(role: .destructive) {
+                        TestDataService.shared.clearAllWorkouts(modelContext: modelContext)
+                        showingClearDataConfirmation = true
+                    } label: {
+                        HStack {
+                            Image(systemName: "trash.fill")
+                            Text("Clear All Workouts")
+                        }
+                    }
+                }
+                #endif
             }
             .scrollContentBackground(.hidden)
-            .background(Color(.systemBackground))
+            .background(Color.appBackground)
             .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(Color.appBackground, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("Settings")
@@ -238,6 +290,16 @@ struct SettingsView: View {
                         showingAPIKeyField = false
                     }
                 )
+            }
+            .alert("Test Data Added", isPresented: $showingTestDataConfirmation) {
+                Button("OK") {}
+            } message: {
+                Text("A week of sample workouts has been added to help you preview the app.")
+            }
+            .alert("Data Cleared", isPresented: $showingClearDataConfirmation) {
+                Button("OK") {}
+            } message: {
+                Text("All workout data has been removed.")
             }
         }
     }

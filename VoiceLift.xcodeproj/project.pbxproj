@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		0F5C53927A86EFE71014131D /* MediaPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7FAFF0A436F225A0A4FF125 /* MediaPickerView.swift */; };
 		1DAA4833858A0CC470603F3D /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 403F80A4AD6DDFD984346D22 /* NetworkMonitor.swift */; };
+		DD0000010000000000000001 /* E1RMCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0000020000000000000001 /* E1RMCalculator.swift */; };
+		DD0000030000000000000001 /* GhostSetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0000040000000000000001 /* GhostSetService.swift */; };
+		DD0000050000000000000001 /* GhostSetViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0000060000000000000001 /* GhostSetViews.swift */; };
 		33BF94209D4FAC90A3816B13 /* SpeechRecognitionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C519EC5ED01F034638EDD852 /* SpeechRecognitionService.swift */; };
 		AA0000010000000000000001 /* VoiceLiftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000020000000000000001 /* VoiceLiftApp.swift */; };
 		AA0000070000000000000001 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA0000080000000000000001 /* Preview Assets.xcassets */; };
@@ -16,6 +19,7 @@
 		AA00000B0000000000000001 /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000C0000000000000001 /* Exercise.swift */; };
 		AA00000D0000000000000001 /* ExerciseSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000E0000000000000001 /* ExerciseSet.swift */; };
 		AA00000F0000000000000001 /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000100000000000000001 /* AudioRecorder.swift */; };
+		29FC7F399F1FB60A4D0877D4 /* ExerciseRecommendationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D2720E1EB7D09D4FA550EA /* ExerciseRecommendationService.swift */; };
 		AA0000110000000000000001 /* WhisperService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000120000000000000001 /* WhisperService.swift */; };
 		AA0000130000000000000001 /* WorkoutParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000140000000000000001 /* WorkoutParser.swift */; };
 		AA0000150000000000000001 /* RecordWorkoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000160000000000000001 /* RecordWorkoutView.swift */; };
@@ -36,11 +40,19 @@
 		E73322E37F171137A994BE96 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D572A825F80D7F3B0A89FE4 /* Assets.xcassets */; };
 		F7LLMP002 /* LLMWorkoutParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7LLMP001 /* LLMWorkoutParser.swift */; };
 		FBD8CF0995210A8B35BCB30E /* OfflineWorkoutParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783BB33C5C00BC5C3F307480 /* OfflineWorkoutParser.swift */; };
+		EE0000010000000000000001 /* EquipmentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000020000000000000001 /* EquipmentService.swift */; };
+		EE0000030000000000000001 /* WorkoutValidationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000040000000000000001 /* WorkoutValidationService.swift */; };
+		EE0000050000000000000001 /* ExerciseNormalizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000060000000000000001 /* ExerciseNormalizationService.swift */; };
+		EE0000070000000000000001 /* WeeklyBreakdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000080000000000000001 /* WeeklyBreakdownView.swift */; };
+		EE0000090000000000000001 /* TestDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0000100000000000000001 /* TestDataService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		264063806F85C959DE48FBE4 /* WorkoutMedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutMedia.swift; sourceTree = "<group>"; };
 		403F80A4AD6DDFD984346D22 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		DD0000020000000000000001 /* E1RMCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = E1RMCalculator.swift; sourceTree = "<group>"; };
+		DD0000040000000000000001 /* GhostSetService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhostSetService.swift; sourceTree = "<group>"; };
+		DD0000060000000000000001 /* GhostSetViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhostSetViews.swift; sourceTree = "<group>"; };
 		6D572A825F80D7F3B0A89FE4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		783BB33C5C00BC5C3F307480 /* OfflineWorkoutParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineWorkoutParser.swift; sourceTree = "<group>"; };
 		A576C63563D1BCBD4EF37FA7 /* MediaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaService.swift; sourceTree = "<group>"; };
@@ -50,6 +62,7 @@
 		AA00000C0000000000000001 /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
 		AA00000E0000000000000001 /* ExerciseSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseSet.swift; sourceTree = "<group>"; };
 		AA0000100000000000000001 /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
+		B6D2720E1EB7D09D4FA550EA /* ExerciseRecommendationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseRecommendationService.swift; sourceTree = "<group>"; };
 		AA0000120000000000000001 /* WhisperService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhisperService.swift; sourceTree = "<group>"; };
 		AA0000140000000000000001 /* WorkoutParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutParser.swift; sourceTree = "<group>"; };
 		AA0000160000000000000001 /* RecordWorkoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordWorkoutView.swift; sourceTree = "<group>"; };
@@ -70,6 +83,11 @@
 		C519EC5ED01F034638EDD852 /* SpeechRecognitionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognitionService.swift; sourceTree = "<group>"; };
 		CC0000020000000000000001 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		F7LLMP001 /* LLMWorkoutParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLMWorkoutParser.swift; sourceTree = "<group>"; };
+		EE0000020000000000000001 /* EquipmentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EquipmentService.swift; sourceTree = "<group>"; };
+		EE0000040000000000000001 /* WorkoutValidationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutValidationService.swift; sourceTree = "<group>"; };
+		EE0000060000000000000001 /* ExerciseNormalizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseNormalizationService.swift; sourceTree = "<group>"; };
+		EE0000080000000000000001 /* WeeklyBreakdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyBreakdownView.swift; sourceTree = "<group>"; };
+		EE0000100000000000000001 /* TestDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDataService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +149,7 @@
 				AA00001C0000000000000001 /* WorkoutDetailView.swift */,
 				BB0000040000000000000001 /* WelcomeView.swift */,
 				BB0000060000000000000001 /* OnboardingView.swift */,
+				DD0000060000000000000001 /* GhostSetViews.swift */,
 				AA00002E0000000000000001 /* Components */,
 			);
 			path = Views;
@@ -155,11 +174,18 @@
 				403F80A4AD6DDFD984346D22 /* NetworkMonitor.swift */,
 				C519EC5ED01F034638EDD852 /* SpeechRecognitionService.swift */,
 				AA0000100000000000000001 /* AudioRecorder.swift */,
+				B6D2720E1EB7D09D4FA550EA /* ExerciseRecommendationService.swift */,
 				AA0000120000000000000001 /* WhisperService.swift */,
 				AA0000140000000000000001 /* WorkoutParser.swift */,
 				AA00003A0000000000000001 /* GPTParserService.swift */,
 				F7LLMP001 /* LLMWorkoutParser.swift */,
 				BB0000020000000000000001 /* NotificationService.swift */,
+				DD0000020000000000000001 /* E1RMCalculator.swift */,
+				DD0000040000000000000001 /* GhostSetService.swift */,
+				EE0000020000000000000001 /* EquipmentService.swift */,
+				EE0000040000000000000001 /* WorkoutValidationService.swift */,
+				EE0000060000000000000001 /* ExerciseNormalizationService.swift */,
+				EE0000100000000000000001 /* TestDataService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -179,6 +205,7 @@
 				AA00001E0000000000000001 /* ChartViews.swift */,
 				AA0000200000000000000001 /* ExerciseCard.swift */,
 				AA0000220000000000000001 /* RecordButton.swift */,
+				EE0000080000000000000001 /* WeeklyBreakdownView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -273,6 +300,7 @@
 				AA00000B0000000000000001 /* Exercise.swift in Sources */,
 				AA00000D0000000000000001 /* ExerciseSet.swift in Sources */,
 				AA00000F0000000000000001 /* AudioRecorder.swift in Sources */,
+				29FC7F399F1FB60A4D0877D4 /* ExerciseRecommendationService.swift in Sources */,
 				AA0000110000000000000001 /* WhisperService.swift in Sources */,
 				AA0000130000000000000001 /* WorkoutParser.swift in Sources */,
 				AA00003B0000000000000001 /* GPTParserService.swift in Sources */,
@@ -288,6 +316,14 @@
 				BB0000030000000000000001 /* WelcomeView.swift in Sources */,
 				BB0000050000000000000001 /* OnboardingView.swift in Sources */,
 				CC0000010000000000000001 /* Extensions.swift in Sources */,
+				DD0000010000000000000001 /* E1RMCalculator.swift in Sources */,
+				DD0000030000000000000001 /* GhostSetService.swift in Sources */,
+				DD0000050000000000000001 /* GhostSetViews.swift in Sources */,
+				EE0000010000000000000001 /* EquipmentService.swift in Sources */,
+				EE0000030000000000000001 /* WorkoutValidationService.swift in Sources */,
+				EE0000050000000000000001 /* ExerciseNormalizationService.swift in Sources */,
+				EE0000070000000000000001 /* WeeklyBreakdownView.swift in Sources */,
+				EE0000090000000000000001 /* TestDataService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,7 +455,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"Preview Content\"";
 				DEVELOPMENT_TEAM = MTAQ65AZZC;
 				ENABLE_PREVIEWS = YES;
@@ -449,7 +485,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"Preview Content\"";
 				DEVELOPMENT_TEAM = MTAQ65AZZC;
 				ENABLE_PREVIEWS = YES;

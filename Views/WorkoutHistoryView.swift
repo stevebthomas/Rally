@@ -12,7 +12,41 @@ struct WorkoutHistoryView: View {
     @State private var showingDeleteConfirmation = false
     @State private var workoutToDelete: Workout?
 
+    // Rest days stored as JSON array of date strings
+    @AppStorage("restDays") private var restDaysData: Data = Data()
+
     private let calendar = Calendar.current
+
+    private var restDays: Set<String> {
+        get {
+            (try? JSONDecoder().decode(Set<String>.self, from: restDaysData)) ?? []
+        }
+    }
+
+    private func setRestDays(_ days: Set<String>) {
+        restDaysData = (try? JSONEncoder().encode(days)) ?? Data()
+    }
+
+    private func dateKey(for date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.string(from: date)
+    }
+
+    private func isRestDay(_ date: Date) -> Bool {
+        restDays.contains(dateKey(for: date))
+    }
+
+    private func toggleRestDay(_ date: Date) {
+        var days = restDays
+        let key = dateKey(for: date)
+        if days.contains(key) {
+            days.remove(key)
+        } else {
+            days.insert(key)
+        }
+        setRestDays(days)
+    }
 
     var body: some View {
         NavigationStack {
@@ -26,8 +60,10 @@ struct WorkoutHistoryView: View {
                 }
                 .padding()
             }
-            .background(Color(.systemBackground))
+            .background(Color.appBackground)
             .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(Color.appBackground, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("History")
@@ -89,7 +125,7 @@ struct WorkoutHistoryView: View {
                     Text(day)
                         .font(.caption)
                         .fontWeight(.medium)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(.secondaryText)
                         .frame(maxWidth: .infinity)
                 }
             }
@@ -104,7 +140,8 @@ struct WorkoutHistoryView: View {
                             isSelected: calendar.isDate(date, inSameDayAs: selectedDate),
                             hasWorkout: hasWorkout(on: date),
                             workoutCount: workoutCount(on: date),
-                            isToday: calendar.isDateInToday(date)
+                            isToday: calendar.isDateInToday(date),
+                            isRestDay: isRestDay(date)
                         )
                         .onTapGesture {
                             withAnimation(.easeInOut(duration: 0.2)) {
@@ -127,20 +164,52 @@ struct WorkoutHistoryView: View {
 
     private var selectedDateWorkouts: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(selectedDate.formatted(date: .complete, time: .omitted))
-                .font(.headline)
-                .foregroundColor(.secondary)
+            HStack {
+                Text(selectedDate.formatted(date: .complete, time: .omitted))
+                    .font(.headline)
+                    .foregroundColor(.secondaryText)
+
+                Spacer()
+
+                // Rest day toggle button
+                Button {
+                    withAnimation {
+                        toggleRestDay(selectedDate)
+                    }
+                } label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: isRestDay(selectedDate) ? "bed.double.fill" : "bed.double")
+                            .font(.caption)
+                        Text(isRestDay(selectedDate) ? "Rest Day" : "Mark Rest")
+                            .font(.caption)
+                    }
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 6)
+                    .background(isRestDay(selectedDate) ? Color.blue : Color.blue.opacity(0.1))
+                    .foregroundColor(isRestDay(selectedDate) ? .white : .blue)
+                    .cornerRadius(8)
+                }
+            }
 
             let dayWorkouts = workoutsFor(date: selectedDate)
 
             if dayWorkouts.isEmpty {
                 VStack(spacing: 12) {
-                    Image(systemName: "figure.walk")
-                        .font(.system(size: 40))
-                        .foregroundColor(.secondary)
-                    Text("No workouts on this day")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
+                    if isRestDay(selectedDate) {
+                        Image(systemName: "bed.double.fill")
+                            .font(.system(size: 40))
+                            .foregroundColor(.blue)
+                        Text("Rest day - Recovery is important!")
+                            .font(.subheadline)
+                            .foregroundColor(.secondaryText)
+                    } else {
+                        Image(systemName: "figure.walk")
+                            .font(.system(size: 40))
+                            .foregroundColor(.secondaryText)
+                        Text("No workouts on this day")
+                            .font(.subheadline)
+                            .foregroundColor(.secondaryText)
+                    }
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 40)
@@ -214,6 +283,7 @@ struct CalendarDayView: View {
     let hasWorkout: Bool
     let workoutCount: Int
     let isToday: Bool
+    let isRestDay: Bool
 
     private let calendar = Calendar.current
 
@@ -231,19 +301,29 @@ struct CalendarDayView: View {
                 Text("\(calendar.component(.day, from: date))")
                     .font(.system(.body, design: .rounded))
                     .fontWeight(hasWorkout ? .bold : .regular)
-                    .foregroundColor(isSelected ? .white : (hasWorkout ? .primary : .secondary))
+                    .foregroundColor(isSelected ? .white : (hasWorkout ? .primaryText : .secondaryText))
             }
             .frame(width: 36, height: 36)
 
-            // Workout indicator dots
-            if hasWorkout && !isSelected {
+            // Indicator dots
+            if !isSelected {
                 HStack(spacing: 2) {
-                    ForEach(0..<min(workoutCount, 3), id: \.self) { _ in
+                    // Workout dots (green)
+                    if hasWorkout {
+                        ForEach(0..<min(workoutCount, 3), id: \.self) { _ in
+                            Circle()
+                                .fill(Color.green)
+                                .frame(width: 5, height: 5)
+                        }
+                    }
+                    // Rest day dot (blue)
+                    if isRestDay {
                         Circle()
-                            .fill(Color.green)
+                            .fill(Color.blue)
                             .frame(width: 5, height: 5)
                     }
                 }
+                .frame(height: 5)
             } else {
                 Spacer()
                     .frame(height: 5)
@@ -263,7 +343,7 @@ struct WorkoutCard: View {
             HStack {
                 Text(workout.formattedTime)
                     .font(.subheadline)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.secondaryText)
 
                 Spacer()
 
@@ -317,10 +397,10 @@ struct WorkoutCard: View {
                 Spacer()
 
                 Image(systemName: "chevron.right")
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.secondaryText)
             }
             .font(.subheadline)
-            .foregroundColor(.secondary)
+            .foregroundColor(.secondaryText)
         }
         .padding()
         .background(Color(.secondarySystemBackground))
@@ -353,17 +433,17 @@ struct SmallMediaThumbnail: View {
                 Image(uiImage: thumbnail)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 50, height: 50)
-                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                    .frame(width: 70, height: 70)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
             } else {
-                RoundedRectangle(cornerRadius: 6)
+                RoundedRectangle(cornerRadius: 8)
                     .fill(Color(.systemGray5))
-                    .frame(width: 50, height: 50)
+                    .frame(width: 70, height: 70)
             }
 
             if media.mediaType == .video {
                 Image(systemName: "play.circle.fill")
-                    .font(.caption)
+                    .font(.subheadline)
                     .foregroundColor(.white)
                     .shadow(radius: 1)
             }

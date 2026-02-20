@@ -60,7 +60,7 @@ struct ExercisePicker: View {
         } label: {
             HStack {
                 Text(selectedExercise ?? "Select Exercise")
-                    .foregroundStyle(selectedExercise == nil ? .secondary : .primary)
+                    .foregroundStyle(selectedExercise == nil ? Color.secondaryText : Color.primaryText)
                 Spacer()
                 Image(systemName: "chevron.down")
                     .foregroundStyle(Color.rallyGray)

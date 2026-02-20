@@ -7,18 +7,20 @@ struct WelcomeView: View {
 
     var body: some View {
         ZStack {
-            Color(.systemBackground)
+            // Black background to match the Rally logo
+            Color.black
                 .ignoresSafeArea()
 
-            VStack(spacing: 24) {
+            VStack(spacing: 32) {
                 Image("RallyLogo")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 220)
+                    .frame(maxWidth: 320)
+                    .padding(.horizontal, 24)
 
                 Text("RISE. RECORD. RESULT.")
-                    .font(.system(size: 18, weight: .black, design: .default))
-                    .tracking(3)
+                    .font(.system(size: 16, weight: .heavy, design: .rounded))
+                    .tracking(4)
                     .foregroundStyle(Color.rallyOrange)
             }
         }

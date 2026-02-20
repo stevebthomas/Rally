@@ -1,16 +1,17 @@
 import Foundation
 import SwiftData
 
-/// Represents an exercise performed during a workout (e.g., Bench Press with multiple sets)
-/// Exercise type - weighted (track by weight) or bodyweight (track by reps)
-enum ExerciseCategory: String, Codable {
+/// Exercise type - weighted (track by weight), bodyweight (track by reps), or timed (track by duration)
+enum ExerciseCategory: String, Codable, CaseIterable {
     case weighted
     case bodyweight
+    case timed
 
     var displayName: String {
         switch self {
         case .weighted: return "Weighted"
         case .bodyweight: return "Bodyweight"
+        case .timed: return "Timed"
         }
     }
 
@@ -18,6 +19,75 @@ enum ExerciseCategory: String, Codable {
         switch self {
         case .weighted: return "Weight"
         case .bodyweight: return "Reps"
+        case .timed: return "Duration"
+        }
+    }
+}
+
+/// Equipment types
+enum Equipment: String, Codable, CaseIterable {
+    case barbell = "Barbell"
+    case dumbbell = "Dumbbell"
+    case cable = "Cable"
+    case machine = "Machine"
+    case kettlebell = "Kettlebell"
+    case bodyweight = "Bodyweight"
+    case resistanceBand = "Band"
+    case smithMachine = "Smith Machine"
+    case trapBar = "Trap Bar"
+    case ezBar = "EZ Bar"
+    case other = "Other"
+
+    var displayName: String { rawValue }
+
+    var icon: String {
+        switch self {
+        case .barbell: return "figure.strengthtraining.traditional"
+        case .dumbbell: return "dumbbell.fill"
+        case .cable: return "cable.connector"
+        case .machine: return "gearshape.fill"
+        case .kettlebell: return "scalemass.fill"
+        case .bodyweight: return "figure.stand"
+        case .resistanceBand: return "figure.flexibility"
+        case .smithMachine: return "square.stack.3d.up.fill"
+        case .trapBar: return "hexagon"
+        case .ezBar: return "figure.strengthtraining.traditional"
+        case .other: return "questionmark.circle"
+        }
+    }
+}
+
+/// Muscle groups
+enum MuscleGroup: String, Codable, CaseIterable {
+    case chest = "Chest"
+    case back = "Back"
+    case shoulders = "Shoulders"
+    case biceps = "Biceps"
+    case triceps = "Triceps"
+    case forearms = "Forearms"
+    case quads = "Quads"
+    case hamstrings = "Hamstrings"
+    case glutes = "Glutes"
+    case calves = "Calves"
+    case core = "Core"
+    case fullBody = "Full Body"
+
+    var displayName: String { rawValue }
+
+    var icon: String {
+        switch self {
+        case .chest: return "heart.fill"
+        case .back: return "arrow.left.and.right"
+        case .shoulders: return "figure.arms.open"
+        case .biceps: return "figure.wave"
+        case .triceps: return "figure.wave"
+        case .forearms: return "hand.raised.fill"
+        case .quads: return "figure.walk"
+        case .hamstrings: return "figure.walk"
+        case .glutes: return "figure.walk"
+        case .calves: return "figure.walk"
+        case .core: return "figure.core.training"
+        case .fullBody: return "figure.mixed.cardio"
         }
     }
 }
@@ -27,21 +97,41 @@ final class Exercise {
     var id: UUID
     var name: String
     var category: ExerciseCategory
+    var equipment: Equipment
+    var primaryMusclesRaw: String  // Stored as comma-separated string
+    var notes: String  // Notes for this exercise
     var workout: Workout?
 
     @Relationship(deleteRule: .cascade, inverse: \ExerciseSet.exercise)
     var sets: [ExerciseSet]
 
+    // Computed property for muscle groups
+    var primaryMuscles: [MuscleGroup] {
+        get {
+            primaryMusclesRaw.split(separator: ",")
+                .compactMap { MuscleGroup(rawValue: String($0)) }
+        }
+        set {
+            primaryMusclesRaw = newValue.map { $0.rawValue }.joined(separator: ",")
+        }
+    }
+
     init(
         id: UUID = UUID(),
         name: String,
         category: ExerciseCategory = .weighted,
+        equipment: Equipment = .other,
+        primaryMuscles: [MuscleGroup] = [],
+        notes: String = "",
         workout: Workout? = nil,
         sets: [ExerciseSet] = []
     ) {
         self.id = id
         self.name = name
         self.category = category
+        self.equipment = equipment
+        self.primaryMusclesRaw = primaryMuscles.map { $0.rawValue }.joined(separator: ",")
+        self.notes = notes
         self.workout = workout
         self.sets = sets
     }

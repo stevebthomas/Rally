@@ -31,8 +31,10 @@ struct ProgressChartsView: View {
                 }
                 .padding()
             }
-            .background(Color(.systemBackground))
+            .background(Color.appBackground)
             .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(Color.appBackground, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("Progress")
@@ -48,7 +50,7 @@ struct ProgressChartsView: View {
         VStack(spacing: 16) {
             Image(systemName: "chart.line.uptrend.xyaxis")
                 .font(.system(size: 60))
-                .foregroundColor(.secondary)
+                .foregroundColor(.secondaryText)
 
             Text("No Progress Data")
                 .font(.title2)
@@ -56,7 +58,7 @@ struct ProgressChartsView: View {
 
             Text("Record some workouts to see your progress here")
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundColor(.secondaryText)
                 .multilineTextAlignment(.center)
         }
         .padding(.vertical, 60)
@@ -109,6 +111,7 @@ struct ProgressChartsView: View {
         let category = getExerciseCategory(for: exerciseName)
 
         return VStack(spacing: 16) {
+            // Weight/Reps chart
             if category == .bodyweight {
                 RepsProgressChart(
                     data: repsProgressData(for: exerciseName),
@@ -119,6 +122,14 @@ struct ProgressChartsView: View {
                     data: weightProgressData(for: exerciseName),
                     exerciseName: exerciseName,
                     unit: unit
+                )
+            }
+
+            // Progression chart (comparing to historical average)
+            if category == .weighted {
+                ProgressionTrendChart(
+                    data: progressionData(for: exerciseName),
+                    exerciseName: exerciseName
                 )
             }
         }
@@ -134,7 +145,7 @@ struct ProgressChartsView: View {
             if allPersonalRecords.isEmpty {
                 Text("No PRs recorded yet")
                     .font(.subheadline)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.secondaryText)
                     .padding()
             } else {
                 ForEach(allPersonalRecords.prefix(5)) { pr in
@@ -195,6 +206,37 @@ struct ProgressChartsView: View {
                 dataPoints.append(ProgressDataPoint(date: workout.date, value: Double(exercise.maxReps)))
             }
         }
+        return dataPoints
+    }
+
+    private func progressionData(for exerciseName: String) -> [ProgressionDataPoint] {
+        let sortedWorkouts = workouts.sorted(by: { $0.date < $1.date })
+        var dataPoints: [ProgressionDataPoint] = []
+        var historicalE1RMs: [Double] = []
+
+        for workout in sortedWorkouts {
+            guard let exercise = workout.exercises.first(where: { $0.name == exerciseName }),
+                  !exercise.sets.isEmpty else { continue }
+
+            let currentE1RM = E1RMCalculator.averageE1RM(for: exercise.sets)
+
+            // Calculate percentage vs historical average (need at least 2 prior sessions)
+            if historicalE1RMs.count >= 2 {
+                let historicalAvg = historicalE1RMs.reduce(0, +) / Double(historicalE1RMs.count)
+                let percentageVsAvg = historicalAvg > 0
+                    ? ((currentE1RM - historicalAvg) / historicalAvg) * 100
+                    : 0
+
+                dataPoints.append(ProgressionDataPoint(
+                    date: workout.date,
+                    percentageChange: percentageVsAvg,
+                    e1rm: currentE1RM
+                ))
+            }
+
+            historicalE1RMs.append(currentE1RM)
+        }
+
         return dataPoints
     }
 
@@ -265,7 +307,7 @@ struct PRRow: View {
 
                 Text(record.date.formatted(date: .abbreviated, time: .omitted))
                     .font(.caption2)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.secondaryText)
             }
 
             Spacer()
@@ -300,7 +342,7 @@ struct RepsProgressChart: View {
         VStack(alignment: .leading, spacing: 8) {
             Text("\(exerciseName) - Reps")
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundColor(.secondaryText)
 
             if data.isEmpty {
                 emptyChartState
@@ -337,13 +379,113 @@ struct RepsProgressChart: View {
         VStack(spacing: 8) {
             Image(systemName: "chart.line.uptrend.xyaxis")
                 .font(.largeTitle)
-                .foregroundColor(.secondary)
+                .foregroundColor(.secondaryText)
             Text("No data yet")
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundColor(.secondaryText)
         }
         .frame(height: 200)
         .frame(maxWidth: .infinity)
+    }
+}
+
+// MARK: - Progression Trend Chart
+
+struct ProgressionDataPoint: Identifiable {
+    let id = UUID()
+    let date: Date
+    let percentageChange: Double  // vs historical average
+    let e1rm: Double
+}
+
+struct ProgressionTrendChart: View {
+    let data: [ProgressionDataPoint]
+    let exerciseName: String
+
+    @State private var showingInfo = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text("Progression vs Average")
+                    .font(.subheadline)
+                    .foregroundColor(.secondaryText)
+
+                Button {
+                    showingInfo = true
+                } label: {
+                    Image(systemName: "info.circle")
+                        .font(.caption)
+                        .foregroundColor(.secondaryText)
+                }
+
+                Spacer()
+            }
+            .alert("How Progression Works", isPresented: $showingInfo) {
+                Button("Got it", role: .cancel) { }
+            } message: {
+                Text("This shows how each session compares to your historical average for this exercise.\n\n• Above 0%: Stronger than usual\n• Below 0%: Lighter session\n\nAim for consistency with occasional peaks!")
+            }
+
+            if data.count < 2 {
+                VStack(spacing: 8) {
+                    Image(systemName: "chart.line.uptrend.xyaxis")
+                        .font(.largeTitle)
+                        .foregroundColor(.secondaryText)
+                    Text("Need 3+ sessions to show progression")
+                        .font(.subheadline)
+                        .foregroundColor(.secondaryText)
+                }
+                .frame(height: 180)
+                .frame(maxWidth: .infinity)
+            } else {
+                Chart {
+                    // Zero baseline
+                    RuleMark(y: .value("Baseline", 0))
+                        .foregroundStyle(.secondary.opacity(0.5))
+                        .lineStyle(StrokeStyle(lineWidth: 1, dash: [5, 5]))
+
+                    ForEach(data) { point in
+                        BarMark(
+                            x: .value("Date", point.date),
+                            y: .value("Change", point.percentageChange)
+                        )
+                        .foregroundStyle(point.percentageChange >= 0 ? Color.green : Color.orange)
+                        .cornerRadius(4)
+                    }
+                }
+                .chartYAxisLabel("%")
+                .chartXAxis {
+                    AxisMarks(values: .automatic) { _ in
+                        AxisValueLabel(format: .dateTime.month().day())
+                    }
+                }
+                .frame(height: 180)
+
+                // Legend
+                HStack(spacing: 16) {
+                    HStack(spacing: 4) {
+                        Circle()
+                            .fill(Color.green)
+                            .frame(width: 8, height: 8)
+                        Text("Above avg")
+                            .font(.caption2)
+                            .foregroundColor(.secondaryText)
+                    }
+                    HStack(spacing: 4) {
+                        Circle()
+                            .fill(Color.orange)
+                            .frame(width: 8, height: 8)
+                        Text("Below avg")
+                            .font(.caption2)
+                            .foregroundColor(.secondaryText)
+                    }
+                }
+            }
+        }
+        .padding()
+        .background(Color(.secondarySystemBackground))
+        .cornerRadius(12)
     }
 }
 

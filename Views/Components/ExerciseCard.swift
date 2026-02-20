@@ -12,7 +12,7 @@ struct ExerciseCard: View {
             HStack {
                 Text(exercise.name)
                     .font(.headline)
-                    .foregroundColor(.primary)
+                    .foregroundColor(.primaryText)
 
                 Spacer()
 

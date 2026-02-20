@@ -135,7 +135,7 @@ struct TapRecordButton: View {
             if isRecording {
                 Text(duration)
                     .font(.system(.title2, design: .monospaced))
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.secondaryText)
             }
         }
         .accessibilityLabel(isRecording ? "Recording \(duration). Tap to stop." : "Tap to start recording")

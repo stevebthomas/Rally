@@ -61,6 +61,7 @@ struct OnboardingView: View {
             .padding(.horizontal, 32)
             .padding(.bottom, 40)
         }
+        .background(Color.appBackground.ignoresSafeArea())
         .animation(.easeInOut(duration: 0.3), value: step)
     }
 
@@ -101,7 +102,7 @@ struct OnboardingView: View {
                     .frame(width: 140)
                 Text("lbs")
                     .font(.title2)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryText)
             }
         }
     }

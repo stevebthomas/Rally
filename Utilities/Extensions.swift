@@ -125,6 +125,21 @@ extension Color {
     /// Rally brand colors
     static let rallyOrange = Color(red: 232/255, green: 122/255, blue: 45/255)  // #E87A2D
     static let rallyGray = Color(red: 142/255, green: 142/255, blue: 147/255)   // #8E8E93
+    static let rallyBeige = Color(red: 245/255, green: 243/255, blue: 237/255)  // #F5F3ED - warm cream/beige
+    static let rallyBlack = Color.black  // Pure black to match logo
+
+    /// Primary text color - beige instead of white
+    static let primaryText = Color(red: 245/255, green: 243/255, blue: 237/255)  // Beige
+    static let secondaryText = Color(red: 200/255, green: 198/255, blue: 192/255)  // Slightly darker beige
+
+    /// App background - pure black (0,0,0) to match logo exactly
+    static let appBackground = Color(red: 0, green: 0, blue: 0)
+
+    /// Secondary background (cards, etc.)
+    static let appSecondaryBackground = Color(red: 28/255, green: 28/255, blue: 30/255)  // Slightly lighter dark gray
+
+    /// Tertiary background (nested cards)
+    static let appTertiaryBackground = Color(red: 44/255, green: 44/255, blue: 46/255)  // Even lighter dark gray
 
     /// App accent colors
     static let appAccent = Color.rallyOrange

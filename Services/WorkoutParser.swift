@@ -299,22 +299,38 @@ struct ParsedExercise: Identifiable {
     var name: String
     var sets: [ParsedSet]
     var category: ExerciseCategory
+    var equipment: Equipment
+    var primaryMuscles: [MuscleGroup]
+    var notes: String  // Notes for this exercise
 
-    init(name: String, sets: [ParsedSet], category: ExerciseCategory? = nil) {
+    init(name: String, sets: [ParsedSet], category: ExerciseCategory? = nil, equipment: Equipment = .other, primaryMuscles: [MuscleGroup] = [], notes: String = "") {
         self.name = name
         self.sets = sets
+        self.equipment = equipment
+        self.primaryMuscles = primaryMuscles
+        self.notes = notes
         // Auto-detect category if not specified
         if let cat = category {
             self.category = cat
         } else {
+            // Check if any set has duration (timed exercise)
+            if sets.contains(where: { $0.duration != nil && $0.duration! > 0 }) {
+                self.category = .timed
+            }
             // If weight is 0 or very small, assume bodyweight
-            let avgWeight = sets.isEmpty ? 0 : sets.reduce(0.0) { $0 + $1.weight } / Double(sets.count)
-            self.category = avgWeight < 1 ? .bodyweight : .weighted
+            else {
+                let avgWeight = sets.isEmpty ? 0 : sets.reduce(0.0) { $0 + $1.weight } / Double(sets.count)
+                self.category = avgWeight < 1 ? .bodyweight : .weighted
+            }
         }
     }
 
     var isBodyweight: Bool {
         category == .bodyweight
+    }
+
+    var isTimed: Bool {
+        category == .timed
     }
 }
 
@@ -324,13 +340,56 @@ struct ParsedSet: Identifiable {
     var reps: Int
     var weight: Double
     var unit: WeightUnit
+    var duration: Int?  // Duration in seconds for timed exercises
+    var setType: SetType
+
+    // Phase 2: Intensity & execution tracking
+    var rpe: Int?  // Rate of Perceived Exertion (1-10)
+    var rir: Int?  // Reps In Reserve
+    var restTime: Int?  // Rest time in seconds
+    var tempo: String?  // Tempo notation (e.g., "3-1-2")
+    var gripType: GripType?
+    var stanceType: StanceType?
+
+    init(
+        setNumber: Int,
+        reps: Int,
+        weight: Double,
+        unit: WeightUnit = .lbs,
+        duration: Int? = nil,
+        setType: SetType = .normal,
+        rpe: Int? = nil,
+        rir: Int? = nil,
+        restTime: Int? = nil,
+        tempo: String? = nil,
+        gripType: GripType? = nil,
+        stanceType: StanceType? = nil
+    ) {
+        self.setNumber = setNumber
+        self.reps = reps
+        self.weight = weight
+        self.unit = unit
+        self.duration = duration
+        self.setType = setType
+        self.rpe = rpe
+        self.rir = rir
+        self.restTime = restTime
+        self.tempo = tempo
+        self.gripType = gripType
+        self.stanceType = stanceType
+    }
 }
 
 // MARK: - Conversion to Model Objects
 
 extension ParsedExercise {
     func toExercise() -> Exercise {
-        let exercise = Exercise(name: name, category: category)
+        let exercise = Exercise(
+            name: name,
+            category: category,
+            equipment: equipment,
+            primaryMuscles: primaryMuscles
+        )
         // Don't pass exercise in initializer - SwiftData handles inverse relationship
         // when we assign to exercise.sets
         exercise.sets = sets.map { parsedSet in
@@ -338,7 +397,9 @@ extension ParsedExercise {
                 setNumber: parsedSet.setNumber,
                 reps: parsedSet.reps,
                 weight: parsedSet.weight,
-                unit: parsedSet.unit
+                unit: parsedSet.unit,
+                duration: parsedSet.duration,
+                setType: parsedSet.setType
             )
         }
         return exercise

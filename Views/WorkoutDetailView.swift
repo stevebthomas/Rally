@@ -71,7 +71,7 @@ struct WorkoutDetailView: View {
 
             Text(workout.formattedTime)
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundColor(.secondaryText)
         }
     }
 
@@ -91,8 +91,8 @@ struct WorkoutDetailView: View {
                     matching: .any(of: [.images, .videos])
                 ) {
                     HStack(spacing: 4) {
-                        Image(systemName: "plus.circle.fill")
-                        Text("Add")
+                        Image(systemName: "pencil.circle.fill")
+                        Text("Edit")
                     }
                     .font(.subheadline)
                     .foregroundColor(.rallyOrange)
@@ -105,26 +105,25 @@ struct WorkoutDetailView: View {
                         .scaleEffect(0.8)
                     Text("Adding media...")
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(.secondaryText)
                 }
             }
 
             if workout.hasMedia {
-                WorkoutMediaGalleryEditable(
-                    media: workout.media,
-                    onDelete: deleteMedia
+                WorkoutMediaGallery(
+                    media: workout.media
                 )
             } else {
                 VStack(spacing: 8) {
                     Image(systemName: "photo.on.rectangle.angled")
                         .font(.largeTitle)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(.secondaryText)
                     Text("No photos or videos yet")
                         .font(.subheadline)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(.secondaryText)
                     Text("Tap + Add to document this workout")
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(.secondaryText)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 24)
@@ -272,7 +271,7 @@ struct StatItem: View {
 
             Text(label)
                 .font(.caption)
-                .foregroundColor(.secondary)
+                .foregroundColor(.secondaryText)
         }
         .frame(maxWidth: .infinity)
     }

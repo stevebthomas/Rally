@@ -66,6 +66,10 @@ class OfflineWorkoutParser {
         "diamond push ups": "Diamond Push Ups",
         "incline push ups": "Incline Push Ups",
         "decline push ups": "Decline Push Ups",
+        "pike push ups": "Pike Push Ups",
+        "pike push up": "Pike Push Ups",
+        "pike pushups": "Pike Push Ups",
+        "pike pushup": "Pike Push Ups",
 
         // ============================================
         // BACK
@@ -306,6 +310,15 @@ class OfflineWorkoutParser {
         "triceps extensions": "Tricep Extensions",
         "overhead tricep extension": "Overhead Tricep Extensions",
         "overhead extension": "Overhead Tricep Extensions",
+        "single arm tricep extension": "Single Arm Tricep Extension",
+        "single arm tricep extensions": "Single Arm Tricep Extension",
+        "one arm tricep extension": "Single Arm Tricep Extension",
+        "one arm tricep extensions": "Single Arm Tricep Extension",
+        "single arm extension": "Single Arm Tricep Extension",
+        "one arm extension": "Single Arm Tricep Extension",
+        "dumbbell tricep extension": "Dumbbell Tricep Extension",
+        "dumbbell tricep extensions": "Dumbbell Tricep Extension",
+        "db tricep extension": "Dumbbell Tricep Extension",
         "tricep pushdown": "Tricep Pushdowns",
         "tricep pushdowns": "Tricep Pushdowns",
         "triceps pushdown": "Tricep Pushdowns",
@@ -335,8 +348,39 @@ class OfflineWorkoutParser {
         // Forearms
         "wrist curl": "Wrist Curls",
         "wrist curls": "Wrist Curls",
+        "barbell wrist curl": "Barbell Wrist Curls",
+        "barbell wrist curls": "Barbell Wrist Curls",
+        "dumbbell wrist curl": "Dumbbell Wrist Curls",
+        "dumbbell wrist curls": "Dumbbell Wrist Curls",
         "reverse wrist curl": "Reverse Wrist Curls",
         "reverse wrist curls": "Reverse Wrist Curls",
+        "behind the back wrist curl": "Behind the Back Wrist Curls",
+        "behind back wrist curl": "Behind the Back Wrist Curls",
+        "reverse curl": "Reverse Curls",
+        "reverse curls": "Reverse Curls",
+        "reverse barbell curl": "Reverse Barbell Curls",
+        "reverse barbell curls": "Reverse Barbell Curls",
+        "zottman curl": "Zottman Curls",
+        "zottman curls": "Zottman Curls",
+        "zottmans": "Zottman Curls",
+        "finger curl": "Finger Curls",
+        "finger curls": "Finger Curls",
+        "wrist roller": "Wrist Roller",
+        "wrist roll": "Wrist Roller",
+        "forearm roller": "Wrist Roller",
+        "hand gripper": "Hand Gripper",
+        "hand grippers": "Hand Gripper",
+        "gripper": "Hand Gripper",
+        "grippers": "Hand Gripper",
+        "grip trainer": "Hand Gripper",
+        "captains of crush": "Hand Gripper",
+        "grip strength": "Hand Gripper",
+        "static hold": "Static Holds",
+        "static holds": "Static Holds",
+        "barbell hold": "Barbell Holds",
+        "barbell holds": "Barbell Holds",
+        "dumbbell hold": "Dumbbell Holds",
+        "dumbbell holds": "Dumbbell Holds",
         "farmer walk": "Farmer's Walk",
         "farmer walks": "Farmer's Walk",
         "farmers walk": "Farmer's Walk",
@@ -345,7 +389,23 @@ class OfflineWorkoutParser {
         "farmer carry": "Farmer's Walk",
         "farmer carries": "Farmer's Walk",
         "dead hang": "Dead Hang",
+        "dead hangs": "Dead Hang",
+        "bar hang": "Dead Hang",
+        "hanging": "Dead Hang",
+        "towel hang": "Towel Hangs",
+        "towel hangs": "Towel Hangs",
         "plate pinch": "Plate Pinch",
+        "plate pinches": "Plate Pinch",
+        "pinch grip": "Plate Pinch",
+        "forearm pronation": "Forearm Pronation",
+        "pronation": "Forearm Pronation",
+        "forearm supination": "Forearm Supination",
+        "supination": "Forearm Supination",
+        "wrist extension": "Wrist Extensions",
+        "wrist extensions": "Wrist Extensions",
+        "wrist flexion": "Wrist Flexion",
+        "radial deviation": "Radial Deviation",
+        "ulnar deviation": "Ulnar Deviation",
 
         // ============================================
         // CORE (Abdominals & Obliques)
@@ -398,6 +458,17 @@ class OfflineWorkoutParser {
         "flutter kick": "Flutter Kicks",
         "flutter kicks": "Flutter Kicks",
         "hollow hold": "Hollow Hold",
+        "wall sit": "Wall Sit",
+        "wall sits": "Wall Sit",
+        "wall squat": "Wall Sit",
+        "wall squats": "Wall Sit",
+        "l sit": "L-Sit",
+        "l-sit": "L-Sit",
+        "l sits": "L-Sit",
+        "front lever": "Front Lever",
+        "front levers": "Front Lever",
+        "back lever": "Back Lever",
+        "back levers": "Back Lever",
         "hollow body hold": "Hollow Hold",
 
         // ============================================
@@ -462,7 +533,7 @@ class OfflineWorkoutParser {
 
     // Bodyweight exercises (no weight needed)
     private let bodyweightExercises: Set<String> = [
-        "Push Ups", "Wide Push Ups", "Diamond Push Ups", "Incline Push Ups", "Decline Push Ups",
+        "Push Ups", "Wide Push Ups", "Diamond Push Ups", "Incline Push Ups", "Decline Push Ups", "Pike Push Ups",
         "Pull Ups", "Wide Grip Pull Ups", "Close Grip Pull Ups", "Chin Ups",
         "Dips", "Chest Dips", "Tricep Dips", "Bench Dips",
         "Plank", "Side Plank", "Hollow Hold",
@@ -475,6 +546,199 @@ class OfflineWorkoutParser {
         "Burpees", "Jumping Jacks", "Box Jumps",
         "Dead Hang", "Nordic Curls",
         "Back Extensions", "Hyperextensions",
+    ]
+
+    // Timed exercises (measured by duration, not reps)
+    private let timedExercises: Set<String> = [
+        "Plank", "Side Plank", "Hollow Hold",
+        "Dead Hang", "Towel Hangs", "Bar Hang",
+        "Wall Sit", "L-Sit", "Front Lever", "Back Lever",
+        "Static Holds", "Barbell Holds", "Dumbbell Holds",
+        "Farmer's Walk",
+        "Battle Ropes",
+    ]
+
+    // Set type keywords for detection
+    private let setTypeKeywords: [String: SetType] = [
+        "drop set": .dropSet,
+        "dropset": .dropSet,
+        "drop": .dropSet,
+        "superset": .superset,
+        "super set": .superset,
+        "rest pause": .restPause,
+        "rest-pause": .restPause,
+        "amrap": .amrap,
+        "as many as possible": .amrap,
+        "to failure": .toFailure,
+        "til failure": .toFailure,
+        "until failure": .toFailure,
+        "failed": .toFailure,
+        "warm up": .warmup,
+        "warmup": .warmup,
+        "warm-up": .warmup,
+        "cluster": .cluster,
+        "cluster set": .cluster,
+    ]
+
+    // Equipment keywords for detection
+    private let equipmentKeywords: [String: Equipment] = [
+        "barbell": .barbell,
+        "bar": .barbell,
+        "bb": .barbell,
+        "dumbbell": .dumbbell,
+        "dumbbells": .dumbbell,
+        "db": .dumbbell,
+        "dbs": .dumbbell,
+        "cable": .cable,
+        "cables": .cable,
+        "machine": .machine,
+        "kettlebell": .kettlebell,
+        "kb": .kettlebell,
+        "kettlebells": .kettlebell,
+        "band": .resistanceBand,
+        "bands": .resistanceBand,
+        "resistance band": .resistanceBand,
+        "smith": .smithMachine,
+        "smith machine": .smithMachine,
+        "trap bar": .trapBar,
+        "hex bar": .trapBar,
+        "ez bar": .ezBar,
+        "ez curl bar": .ezBar,
+        "bodyweight": .bodyweight,
+        "body weight": .bodyweight,
+        "bw": .bodyweight,
+    ]
+
+    // Grip keywords for detection
+    private let gripKeywords: [String: GripType] = [
+        "wide grip": .wide,
+        "wide": .wide,
+        "narrow grip": .narrow,
+        "narrow": .narrow,
+        "close grip": .narrow,
+        "close": .narrow,
+        "underhand grip": .underhand,
+        "underhand": .underhand,
+        "supinated": .underhand,
+        "supinated grip": .underhand,
+        "overhand grip": .overhand,
+        "overhand": .overhand,
+        "pronated": .overhand,
+        "pronated grip": .overhand,
+        "neutral grip": .neutral,
+        "neutral": .neutral,
+        "hammer grip": .neutral,
+        "mixed grip": .mixed,
+        "mixed": .mixed,
+        "alternating grip": .mixed,
+        "reverse grip": .reverse,
+        "reverse": .reverse,
+    ]
+
+    // Stance keywords for detection
+    private let stanceKeywords: [String: StanceType] = [
+        "wide stance": .wide,
+        "sumo": .sumo,
+        "sumo stance": .sumo,
+        "narrow stance": .narrow,
+        "staggered stance": .staggered,
+        "staggered": .staggered,
+        "split stance": .staggered,
+        "single leg": .singleLeg,
+        "one leg": .singleLeg,
+        "unilateral": .singleLeg,
+    ]
+
+    // Exercise metadata: equipment and primary muscles
+    private let exerciseMetadata: [String: (equipment: Equipment, muscles: [MuscleGroup])] = [
+        // CHEST
+        "Bench Press": (.barbell, [.chest, .triceps, .shoulders]),
+        "Incline Bench Press": (.barbell, [.chest, .shoulders, .triceps]),
+        "Decline Bench Press": (.barbell, [.chest, .triceps]),
+        "Dumbbell Press": (.dumbbell, [.chest, .triceps, .shoulders]),
+        "Incline Dumbbell Press": (.dumbbell, [.chest, .shoulders]),
+        "Chest Flyes": (.dumbbell, [.chest]),
+        "Dumbbell Flyes": (.dumbbell, [.chest]),
+        "Cable Crossover": (.cable, [.chest]),
+        "Pec Deck Fly": (.machine, [.chest]),
+        "Machine Chest Press": (.machine, [.chest, .triceps]),
+        "Push Ups": (.bodyweight, [.chest, .triceps, .shoulders]),
+
+        // BACK
+        "Deadlift": (.barbell, [.back, .hamstrings, .glutes]),
+        "Romanian Deadlift": (.barbell, [.hamstrings, .glutes, .back]),
+        "Pull Ups": (.bodyweight, [.back, .biceps]),
+        "Chin Ups": (.bodyweight, [.back, .biceps]),
+        "Lat Pulldown": (.cable, [.back, .biceps]),
+        "Barbell Row": (.barbell, [.back, .biceps]),
+        "Dumbbell Row": (.dumbbell, [.back, .biceps]),
+        "Cable Row": (.cable, [.back, .biceps]),
+        "Seated Cable Row": (.cable, [.back, .biceps]),
+        "T-Bar Row": (.barbell, [.back, .biceps]),
+        "Face Pulls": (.cable, [.shoulders, .back]),
+
+        // SHOULDERS
+        "Shoulder Press": (.barbell, [.shoulders, .triceps]),
+        "Overhead Press": (.barbell, [.shoulders, .triceps]),
+        "Dumbbell Shoulder Press": (.dumbbell, [.shoulders, .triceps]),
+        "Arnold Press": (.dumbbell, [.shoulders]),
+        "Lateral Raises": (.dumbbell, [.shoulders]),
+        "Front Raises": (.dumbbell, [.shoulders]),
+        "Rear Delt Flyes": (.dumbbell, [.shoulders, .back]),
+        "Shrugs": (.barbell, [.shoulders]),
+        "Upright Row": (.barbell, [.shoulders]),
+
+        // LEGS
+        "Squat": (.barbell, [.quads, .glutes, .hamstrings]),
+        "Back Squat": (.barbell, [.quads, .glutes, .hamstrings]),
+        "Front Squat": (.barbell, [.quads, .core]),
+        "Goblet Squat": (.kettlebell, [.quads, .glutes]),
+        "Leg Press": (.machine, [.quads, .glutes]),
+        "Lunges": (.bodyweight, [.quads, .glutes]),
+        "Walking Lunges": (.bodyweight, [.quads, .glutes]),
+        "Bulgarian Split Squat": (.dumbbell, [.quads, .glutes]),
+        "Leg Extension": (.machine, [.quads]),
+        "Leg Curl": (.machine, [.hamstrings]),
+        "Hip Thrust": (.barbell, [.glutes, .hamstrings]),
+        "Calf Raises": (.machine, [.calves]),
+
+        // ARMS - BICEPS
+        "Bicep Curls": (.dumbbell, [.biceps]),
+        "Barbell Curls": (.barbell, [.biceps]),
+        "Hammer Curls": (.dumbbell, [.biceps, .forearms]),
+        "Preacher Curls": (.barbell, [.biceps]),
+        "Cable Curls": (.cable, [.biceps]),
+
+        // ARMS - TRICEPS
+        "Tricep Extensions": (.cable, [.triceps]),
+        "Skull Crushers": (.barbell, [.triceps]),
+        "Tricep Pushdown": (.cable, [.triceps]),
+        "Close Grip Bench Press": (.barbell, [.triceps, .chest]),
+        "Dips": (.bodyweight, [.triceps, .chest]),
+        "Overhead Tricep Extensions": (.dumbbell, [.triceps]),
+
+        // ARMS - FOREARMS
+        "Wrist Curls": (.dumbbell, [.forearms]),
+        "Reverse Wrist Curls": (.dumbbell, [.forearms]),
+        "Farmer's Walk": (.dumbbell, [.forearms, .core]),
+        "Dead Hang": (.bodyweight, [.forearms, .back]),
+
+        // CORE
+        "Plank": (.bodyweight, [.core]),
+        "Side Plank": (.bodyweight, [.core]),
+        "Crunches": (.bodyweight, [.core]),
+        "Sit Ups": (.bodyweight, [.core]),
+        "Hanging Leg Raises": (.bodyweight, [.core]),
+        "Russian Twists": (.bodyweight, [.core]),
+        "Ab Wheel Rollout": (.other, [.core]),
+        "Cable Crunches": (.cable, [.core]),
+
+        // FULL BODY
+        "Kettlebell Swings": (.kettlebell, [.fullBody, .glutes, .hamstrings]),
+        "Clean": (.barbell, [.fullBody]),
+        "Power Clean": (.barbell, [.fullBody]),
+        "Thrusters": (.barbell, [.fullBody]),
+        "Burpees": (.bodyweight, [.fullBody]),
     ]
 
     // Word-number mapping
@@ -710,48 +974,376 @@ class OfflineWorkoutParser {
     /// Parse a single segment into an exercise
     private func parseSegment(_ segment: String) -> ParsedExercise? {
         let segment = replaceWordNumbers(in: segment)
+        let lowerSegment = segment.lowercased()
 
         // Find exercise name
         guard let exerciseName = findExerciseName(in: segment) else {
             return nil
         }
 
+        // Determine exercise category
         let isBodyweight = bodyweightExercises.contains(exerciseName)
-        let category: ExerciseCategory = isBodyweight ? .bodyweight : .weighted
+        let isTimed = timedExercises.contains(exerciseName)
+
+        let category: ExerciseCategory
+        if isTimed {
+            category = .timed
+        } else if isBodyweight {
+            category = .bodyweight
+        } else {
+            category = .weighted
+        }
+
+        // Detect equipment from keywords or metadata
+        let equipment = detectEquipment(in: lowerSegment, exerciseName: exerciseName)
+
+        // Get muscle groups from metadata
+        let muscles = exerciseMetadata[exerciseName]?.muscles ?? []
+
+        // Detect set type
+        let setType = detectSetType(in: lowerSegment)
+
+        // Phase 2: Detect intensity and execution factors
+        let rpe = extractRPE(from: lowerSegment)
+        let rir = extractRIR(from: lowerSegment)
+        let restTime = extractRestTime(from: lowerSegment)
+        let tempo = extractTempo(from: lowerSegment)
+        let grip = detectGrip(in: lowerSegment)
+        let stance = detectStance(in: lowerSegment)
 
         // Try per-set breakdown first (e.g. "first set was 100 pounds for 4 reps the second set was 120 pounds for 5 reps")
-        if let perSetResult = parsePerSetBreakdown(from: segment, isBodyweight: isBodyweight) {
-            return ParsedExercise(name: exerciseName, sets: perSetResult, category: category)
+        if let perSetResult = parsePerSetBreakdown(from: segment, isBodyweight: isBodyweight, equipment: equipment, setType: setType, rpe: rpe, rir: rir, restTime: restTime, tempo: tempo, grip: grip, stance: stance) {
+            return ParsedExercise(name: exerciseName, sets: perSetResult, category: category, equipment: equipment, primaryMuscles: muscles)
         }
 
         // Fallback: uniform sets
         let sets = extractSets(from: segment)
         let reps = extractReps(from: segment)
         let (weight, unit) = extractWeight(from: segment)
+        let duration = isTimed ? extractDuration(from: segment) : nil
 
         var parsedSets: [ParsedSet] = []
 
         let numSets = sets ?? 1
         // If weight is specified but no reps, assume 1 rep (likely a max/PR)
-        // If no weight and no reps, default to 1 rep as well
-        let numReps = reps ?? 1
-        let setWeight = isBodyweight ? 0.0 : (weight ?? 0.0)
+        // If no weight and no reps, default to 1 rep as well (unless timed)
+        let numReps = isTimed ? (reps ?? 0) : (reps ?? 1)
+
+        // If no weight specified and equipment has a base weight, use that
+        let setWeight: Double
+        if isBodyweight {
+            setWeight = 0.0
+        } else if let explicitWeight = weight {
+            setWeight = explicitWeight
+        } else {
+            // Use equipment base weight if available (barbell=45, trapBar=45, ezBar=25, smithMachine=20)
+            setWeight = EquipmentService.shared.baseWeight(for: equipment)
+        }
         let setUnit = unit ?? .lbs
+        let setDuration = duration
 
         for i in 1...numSets {
             parsedSets.append(ParsedSet(
                 setNumber: i,
                 reps: numReps,
                 weight: setWeight,
-                unit: setUnit
+                unit: setUnit,
+                duration: setDuration,
+                setType: setType,
+                rpe: rpe,
+                rir: rir,
+                restTime: restTime,
+                tempo: tempo,
+                gripType: grip,
+                stanceType: stance
             ))
         }
 
         return ParsedExercise(
             name: exerciseName,
             sets: parsedSets,
-            category: category
+            category: category,
+            equipment: equipment,
+            primaryMuscles: muscles
         )
+    }
+
+    /// Detect equipment from text or exercise metadata
+    private func detectEquipment(in text: String, exerciseName: String) -> Equipment {
+        // First check keywords in the text
+        for (keyword, equipment) in equipmentKeywords {
+            if text.contains(keyword) {
+                return equipment
+            }
+        }
+
+        // Fall back to exercise metadata
+        if let metadata = exerciseMetadata[exerciseName] {
+            return metadata.equipment
+        }
+
+        // Check if it's a bodyweight exercise
+        if bodyweightExercises.contains(exerciseName) {
+            return .bodyweight
+        }
+
+        return .other
+    }
+
+    /// Detect set type from keywords
+    private func detectSetType(in text: String) -> SetType {
+        for (keyword, setType) in setTypeKeywords {
+            if text.contains(keyword) {
+                return setType
+            }
+        }
+        return .normal
+    }
+
+    /// Extract duration in seconds from text (for timed exercises)
+    private func extractDuration(from text: String) -> Int? {
+        let lower = text.lowercased()
+
+        // Patterns for duration: "60 seconds", "1 minute", "30 sec", "1:30"
+        let patterns: [(pattern: String, multiplier: Int)] = [
+            (#"(\d+)\s*(?:minutes?|mins?|m)\s*(?:and\s*)?(\d+)?\s*(?:seconds?|secs?|s)?"#, 60),  // "1 minute 30 seconds"
+            (#"(\d+):(\d+)"#, 0),  // "1:30" format
+            (#"(\d+)\s*(?:minutes?|mins?|m)\b"#, 60),  // "2 minutes"
+            (#"(\d+)\s*(?:seconds?|secs?|s)\b"#, 1),  // "60 seconds"
+        ]
+
+        // Try minute:second format first
+        if let match = lower.range(of: #"(\d+):(\d+)"#, options: .regularExpression) {
+            let matchStr = String(lower[match])
+            let parts = matchStr.split(separator: ":")
+            if parts.count == 2, let mins = Int(parts[0]), let secs = Int(parts[1]) {
+                return mins * 60 + secs
+            }
+        }
+
+        // Try "X minutes Y seconds" format
+        if let regex = try? NSRegularExpression(pattern: #"(\d+)\s*(?:minutes?|mins?|m)\s*(?:and\s*)?(\d+)\s*(?:seconds?|secs?|s)"#, options: .caseInsensitive),
+           let match = regex.firstMatch(in: lower, range: NSRange(lower.startIndex..., in: lower)) {
+            if let minsRange = Range(match.range(at: 1), in: lower),
+               let secsRange = Range(match.range(at: 2), in: lower),
+               let mins = Int(lower[minsRange]),
+               let secs = Int(lower[secsRange]) {
+                return mins * 60 + secs
+            }
+        }
+
+        // Try "X minutes" format
+        if let regex = try? NSRegularExpression(pattern: #"(\d+)\s*(?:minutes?|mins?|m)\b"#, options: .caseInsensitive),
+           let match = regex.firstMatch(in: lower, range: NSRange(lower.startIndex..., in: lower)),
+           let range = Range(match.range(at: 1), in: lower),
+           let mins = Int(lower[range]) {
+            return mins * 60
+        }
+
+        // Try "X seconds" format
+        if let regex = try? NSRegularExpression(pattern: #"(\d+)\s*(?:seconds?|secs?|s)\b"#, options: .caseInsensitive),
+           let match = regex.firstMatch(in: lower, range: NSRange(lower.startIndex..., in: lower)),
+           let range = Range(match.range(at: 1), in: lower),
+           let secs = Int(lower[range]) {
+            return secs
+        }
+
+        return nil
+    }
+
+    /// Extract RPE (Rate of Perceived Exertion) from text - returns 1-10 scale
+    private func extractRPE(from text: String) -> Int? {
+        let lower = text.lowercased()
+
+        // Patterns: "RPE 8", "rpe of 7", "RPE8", "at an 8", "felt like an 8"
+        let patterns = [
+            #"rpe\s*(?:of\s*)?(\d+)"#,
+            #"rpe(\d+)"#,
+            #"rate\s*(?:of\s*)?(?:perceived\s*)?(?:exertion\s*)?(?:of\s*)?(\d+)"#,
+            #"(?:felt like|was) (?:an? )?(\d+)\s*(?:out of 10|/10)"#,
+        ]
+
+        for pattern in patterns {
+            if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive),
+               let match = regex.firstMatch(in: lower, range: NSRange(lower.startIndex..., in: lower)),
+               let range = Range(match.range(at: 1), in: lower),
+               let rpe = Int(lower[range]) {
+                // Clamp to 1-10
+                return max(1, min(10, rpe))
+            }
+        }
+
+        return nil
+    }
+
+    /// Extract RIR (Reps In Reserve) from text
+    private func extractRIR(from text: String) -> Int? {
+        let lower = text.lowercased()
+
+        // Patterns: "RIR 2", "2 in the tank", "2 reps in reserve", "had 3 left"
+        let patterns = [
+            #"rir\s*(?:of\s*)?(\d+)"#,
+            #"rir(\d+)"#,
+            #"(\d+)\s*(?:reps?\s*)?in\s*(?:the\s*)?(?:tank|reserve)"#,
+            #"(?:had|left)\s*(\d+)\s*(?:reps?\s*)?(?:left|remaining)?"#,
+            #"could\s*(?:have\s*)?(?:done\s*)?(\d+)\s*more"#,
+        ]
+
+        for pattern in patterns {
+            if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive),
+               let match = regex.firstMatch(in: lower, range: NSRange(lower.startIndex..., in: lower)),
+               let range = Range(match.range(at: 1), in: lower),
+               let rir = Int(lower[range]) {
+                // RIR typically 0-5
+                return max(0, min(10, rir))
+            }
+        }
+
+        return nil
+    }
+
+    /// Extract rest time in seconds from text
+    private func extractRestTime(from text: String) -> Int? {
+        let lower = text.lowercased()
+
+        // Patterns: "90 seconds rest", "2 minute rest", "rest 60 seconds", "rested for 2 minutes"
+        let patterns: [(pattern: String, multiplier: Int)] = [
+            (#"rest(?:ed)?\s*(?:for\s*)?(\d+)\s*(?:minutes?|mins?|m)\s*(?:and\s*)?(\d+)?\s*(?:seconds?|secs?|s)?"#, 60),
+            (#"(\d+)\s*(?:minutes?|mins?|m)\s*(?:and\s*)?(\d+)?\s*(?:seconds?|secs?|s)?\s*rest"#, 60),
+            (#"rest(?:ed)?\s*(?:for\s*)?(\d+)\s*(?:seconds?|secs?|s)"#, 1),
+            (#"(\d+)\s*(?:seconds?|secs?|s)\s*rest"#, 1),
+            (#"rest(?:ed)?\s*(?:for\s*)?(\d+)\s*(?:minutes?|mins?|m)"#, 60),
+            (#"(\d+)\s*(?:minutes?|mins?|m)\s*rest"#, 60),
+            (#"(\d+):(\d+)\s*rest"#, 0),  // "1:30 rest"
+        ]
+
+        // Try minute:second format first
+        if let regex = try? NSRegularExpression(pattern: #"(\d+):(\d+)\s*rest"#, options: .caseInsensitive),
+           let match = regex.firstMatch(in: lower, range: NSRange(lower.startIndex..., in: lower)),
+           let minsRange = Range(match.range(at: 1), in: lower),
+           let secsRange = Range(match.range(at: 2), in: lower),
+           let mins = Int(lower[minsRange]),
+           let secs = Int(lower[secsRange]) {
+            return mins * 60 + secs
+        }
+
+        // Try minutes + seconds format
+        if let regex = try? NSRegularExpression(pattern: #"rest(?:ed)?\s*(?:for\s*)?(\d+)\s*(?:minutes?|mins?|m)\s*(?:and\s*)?(\d+)\s*(?:seconds?|secs?|s)"#, options: .caseInsensitive),
+           let match = regex.firstMatch(in: lower, range: NSRange(lower.startIndex..., in: lower)),
+           let minsRange = Range(match.range(at: 1), in: lower),
+           let secsRange = Range(match.range(at: 2), in: lower),
+           let mins = Int(lower[minsRange]),
+           let secs = Int(lower[secsRange]) {
+            return mins * 60 + secs
+        }
+
+        // Try minutes only
+        if let regex = try? NSRegularExpression(pattern: #"(?:rest(?:ed)?\s*(?:for\s*)?|(?<=\s))(\d+)\s*(?:minutes?|mins?|m)\s*rest"#, options: .caseInsensitive),
+           let match = regex.firstMatch(in: lower, range: NSRange(lower.startIndex..., in: lower)),
+           let range = Range(match.range(at: 1), in: lower),
+           let mins = Int(lower[range]) {
+            return mins * 60
+        }
+
+        if let regex = try? NSRegularExpression(pattern: #"rest(?:ed)?\s*(?:for\s*)?(\d+)\s*(?:minutes?|mins?|m)"#, options: .caseInsensitive),
+           let match = regex.firstMatch(in: lower, range: NSRange(lower.startIndex..., in: lower)),
+           let range = Range(match.range(at: 1), in: lower),
+           let mins = Int(lower[range]) {
+            return mins * 60
+        }
+
+        // Try seconds only
+        if let regex = try? NSRegularExpression(pattern: #"(?:rest(?:ed)?\s*(?:for\s*)?|(?<=\s))(\d+)\s*(?:seconds?|secs?|s)\s*rest"#, options: .caseInsensitive),
+           let match = regex.firstMatch(in: lower, range: NSRange(lower.startIndex..., in: lower)),
+           let range = Range(match.range(at: 1), in: lower),
+           let secs = Int(lower[range]) {
+            return secs
+        }
+
+        if let regex = try? NSRegularExpression(pattern: #"rest(?:ed)?\s*(?:for\s*)?(\d+)\s*(?:seconds?|secs?|s)"#, options: .caseInsensitive),
+           let match = regex.firstMatch(in: lower, range: NSRange(lower.startIndex..., in: lower)),
+           let range = Range(match.range(at: 1), in: lower),
+           let secs = Int(lower[range]) {
+            return secs
+        }
+
+        return nil
+    }
+
+    /// Extract tempo notation from text (e.g., "3-1-2", "slow eccentric")
+    private func extractTempo(from text: String) -> String? {
+        let lower = text.lowercased()
+
+        // Numeric tempo pattern: "3-1-2-0", "3/1/2", "3 1 2"
+        let numericPatterns = [
+            #"tempo\s*(?:of\s*)?(\d+[-/\s]\d+[-/\s]\d+(?:[-/\s]\d+)?)"#,
+            #"(\d+[-/\s]\d+[-/\s]\d+(?:[-/\s]\d+)?)\s*tempo"#,
+            #"\b(\d+-\d+-\d+(?:-\d+)?)\b"#,  // Standalone "3-1-2-0"
+        ]
+
+        for pattern in numericPatterns {
+            if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive),
+               let match = regex.firstMatch(in: lower, range: NSRange(lower.startIndex..., in: lower)),
+               let range = Range(match.range(at: 1), in: lower) {
+                // Normalize to dash-separated format
+                var tempo = String(lower[range])
+                tempo = tempo.replacingOccurrences(of: "/", with: "-")
+                tempo = tempo.replacingOccurrences(of: " ", with: "-")
+                return tempo
+            }
+        }
+
+        // Descriptive tempo patterns
+        let descriptivePatterns: [(pattern: String, tempo: String)] = [
+            (#"slow\s*(?:and\s*)?controlled"#, "3-1-3"),
+            (#"slow\s*eccentric"#, "4-0-1"),
+            (#"slow\s*negative"#, "4-0-1"),
+            (#"pause(?:d)?\s*(?:at\s*)?(?:the\s*)?bottom"#, "2-2-1"),
+            (#"pause(?:d)?\s*(?:at\s*)?(?:the\s*)?top"#, "2-0-2-2"),
+            (#"explosive"#, "1-0-X"),
+            (#"time\s*under\s*tension"#, "3-1-3"),
+            (#"tut"#, "3-1-3"),
+        ]
+
+        for (pattern, tempo) in descriptivePatterns {
+            if lower.range(of: pattern, options: .regularExpression) != nil {
+                return tempo
+            }
+        }
+
+        return nil
+    }
+
+    /// Detect grip type from text
+    private func detectGrip(in text: String) -> GripType? {
+        let lower = text.lowercased()
+
+        // Sort by length descending to match longer patterns first
+        let sortedGrips = gripKeywords.keys.sorted { $0.count > $1.count }
+
+        for keyword in sortedGrips {
+            if lower.contains(keyword) {
+                return gripKeywords[keyword]
+            }
+        }
+
+        return nil
+    }
+
+    /// Detect stance type from text
+    private func detectStance(in text: String) -> StanceType? {
+        let lower = text.lowercased()
+
+        // Sort by length descending to match longer patterns first
+        let sortedStances = stanceKeywords.keys.sorted { $0.count > $1.count }
+
+        for keyword in sortedStances {
+            if lower.contains(keyword) {
+                return stanceKeywords[keyword]
+            }
+        }
+
+        return nil
     }
 
     /// Ordinal markers used to split per-set descriptions
@@ -765,7 +1357,18 @@ class OfflineWorkoutParser {
     ]
 
     /// Try to parse per-set breakdowns like "first set was 100 pounds for 4 reps the second set was 120 pounds for 5 reps"
-    private func parsePerSetBreakdown(from text: String, isBodyweight: Bool) -> [ParsedSet]? {
+    private func parsePerSetBreakdown(
+        from text: String,
+        isBodyweight: Bool,
+        equipment: Equipment = .other,
+        setType: SetType = .normal,
+        rpe: Int? = nil,
+        rir: Int? = nil,
+        restTime: Int? = nil,
+        tempo: String? = nil,
+        grip: GripType? = nil,
+        stance: StanceType? = nil
+    ) -> [ParsedSet]? {
         let lower = text.lowercased()
 
         // Find all ordinal markers present in the text and their positions
@@ -795,11 +1398,33 @@ class OfflineWorkoutParser {
             let reps = extractReps(from: chunk) ?? extractFirstNumber(from: chunk)
             let (weight, unit) = extractWeight(from: chunk)
 
+            // Try to extract per-set RPE/RIR if mentioned for this specific set
+            let setRpe = extractRPE(from: chunk) ?? rpe
+            let setRir = extractRIR(from: chunk) ?? rir
+
+            // Determine weight - use equipment base weight if not specified
+            let setWeight: Double
+            if isBodyweight {
+                setWeight = 0.0
+            } else if let explicitWeight = weight {
+                setWeight = explicitWeight
+            } else {
+                setWeight = EquipmentService.shared.baseWeight(for: equipment)
+            }
+
             parsedSets.append(ParsedSet(
                 setNumber: i + 1,
                 reps: reps ?? 1,
-                weight: isBodyweight ? 0.0 : (weight ?? 0.0),
-                unit: unit ?? .lbs
+                weight: setWeight,
+                unit: unit ?? .lbs,
+                duration: nil,
+                setType: setType,
+                rpe: setRpe,
+                rir: setRir,
+                restTime: restTime,
+                tempo: tempo,
+                gripType: grip,
+                stanceType: stance
             ))
         }
 
@@ -826,6 +1451,41 @@ class OfflineWorkoutParser {
 
     /// Extract number of sets from text
     private func extractSets(from text: String) -> Int? {
+        let lower = text.lowercased()
+
+        // Check for "X times" at end of sentence or after reps (means sets, not reps)
+        // e.g., "5 reps three times" = 3 sets
+        let timesPatterns = [
+            #"reps?\s+(\d+)\s*times?"#,  // "5 reps 3 times"
+            #"reps?\s+(twice|two\s*times)"#,  // "5 reps twice"
+            #"reps?\s+(three|3)\s*times?"#,
+            #"reps?\s+(four|4)\s*times?"#,
+            #"reps?\s+(five|5)\s*times?"#,
+            #"(\d+)\s*times?\s*$"#,  // "X times" at end of text
+        ]
+
+        for pattern in timesPatterns {
+            if let match = lower.range(of: pattern, options: .regularExpression) {
+                let matchedText = String(lower[match])
+                if matchedText.contains("twice") || matchedText.contains("two times") {
+                    return 2
+                } else if matchedText.contains("three") {
+                    return 3
+                } else if matchedText.contains("four") {
+                    return 4
+                } else if matchedText.contains("five") && !matchedText.contains("reps") {
+                    return 5
+                } else if let number = extractFirstNumber(from: matchedText) {
+                    // For patterns with reps, we want the number after reps
+                    let afterReps = matchedText.replacingOccurrences(of: #"^\d+\s*reps?\s*"#, with: "", options: .regularExpression)
+                    if let setsNum = extractFirstNumber(from: afterReps) {
+                        return setsNum
+                    }
+                    return number
+                }
+            }
+        }
+
         let patterns = [
             #"(\d+)\s*sets?"#,
             #"(\d+)\s*x\s*\d+"#,  // "3x10" format - first number is sets
@@ -848,29 +1508,35 @@ class OfflineWorkoutParser {
         let lower = text.lowercased()
 
         // Check for singular rep phrases first (returns 1)
+        // Use regex with word boundaries to avoid matching "for 1" within "for 10"
         let singularPatterns = [
-            "a single rep", "single rep", "one rep", "1 rep", "a rep",
-            "for a single", "just one", "for one", "for 1"
+            #"\ba\s+single\s+rep"#,
+            #"\bsingle\s+rep"#,
+            #"\bone\s+rep"#,
+            #"\b1\s+rep\b"#,
+            #"\ba\s+rep\b"#,
+            #"\bfor\s+a\s+single\b"#,
+            #"\bjust\s+one\b"#,
+            #"\bfor\s+one\b(?!\d)"#,
+            #"\bfor\s+1\b(?!\d)"#  // "for 1" only if not followed by another digit
         ]
         for pattern in singularPatterns {
-            if lower.contains(pattern) {
+            if lower.range(of: pattern, options: .regularExpression) != nil {
                 return 1
             }
         }
 
-        let patterns = [
+        // Priority patterns - check these first (explicit reps mentions)
+        let priorityPatterns = [
             #"(\d+)\s*reps?"#,
-            #"(\d+)\s*times?"#,  // "5 times" or "twice" (converted to "2 times")
+            #"for\s+(\d+)\s+reps?"#,
             #"sets?\s*of\s*(\d+)"#,  // "4 sets of 8" - second number is reps
-            #"for\s*(\d+)"#,
             #"\d+\s*x\s*(\d+)"#,  // "3x10" format - second number is reps
-            #"did\s*(\d+)"#,  // "did 12" - number after did
-            #"do\s*(\d+)"#,   // "do 10" - number after do
         ]
 
-        for pattern in patterns {
-            if let match = text.range(of: pattern, options: .regularExpression) {
-                let matchedText = String(text[match])
+        for pattern in priorityPatterns {
+            if let match = lower.range(of: pattern, options: .regularExpression) {
+                let matchedText = String(lower[match])
 
                 // For "NxN" format, get the second number
                 if pattern.contains("x") {
@@ -879,6 +1545,36 @@ class OfflineWorkoutParser {
                         return reps
                     }
                 } else {
+                    if let number = extractFirstNumber(from: matchedText) {
+                        return number
+                    }
+                }
+            }
+        }
+
+        // Secondary patterns - only use "times" if it's NOT at the end (which likely means sets)
+        // and there's no explicit reps pattern
+        let hasRepsKeyword = lower.contains("rep")
+        if !hasRepsKeyword {
+            // Check for "X times" but not at the end of the text (end "times" likely means sets)
+            let timesPattern = #"(\d+)\s*times?(?!.*$)"#
+            if let match = lower.range(of: timesPattern, options: .regularExpression) {
+                let matchedText = String(lower[match])
+                if let number = extractFirstNumber(from: matchedText) {
+                    return number
+                }
+            }
+
+            // Fallback patterns
+            let fallbackPatterns = [
+                #"for\s*(\d+)"#,
+                #"did\s*(\d+)"#,
+                #"do\s*(\d+)"#,
+            ]
+
+            for pattern in fallbackPatterns {
+                if let match = lower.range(of: pattern, options: .regularExpression) {
+                    let matchedText = String(lower[match])
                     if let number = extractFirstNumber(from: matchedText) {
                         return number
                     }
