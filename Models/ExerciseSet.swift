@@ -50,8 +50,14 @@ final class ExerciseSet {
     var weight: Double
     var unit: WeightUnit
     var duration: Int?  // Duration in seconds (for time-based exercises like planks)
-    var setType: SetType
+    var setTypeRaw: String?  // Stored as optional for migration compatibility
     var exercise: Exercise?
+
+    // Computed property with default fallback for existing data
+    var setType: SetType {
+        get { setTypeRaw.flatMap { SetType(rawValue: $0) } ?? .normal }
+        set { setTypeRaw = newValue.rawValue }
+    }
 
     // Phase 2: Intensity & execution tracking
     var rpe: Int?  // Rate of Perceived Exertion (1-10 scale)
@@ -94,7 +100,7 @@ final class ExerciseSet {
         self.weight = weight
         self.unit = unit
         self.duration = duration
-        self.setType = setType
+        self.setTypeRaw = setType.rawValue
         self.exercise = exercise
         self.rpe = rpe
         self.rir = rir

@@ -99,7 +99,7 @@ final class Exercise {
     var category: ExerciseCategory
     var equipment: Equipment
     var primaryMusclesRaw: String  // Stored as comma-separated string
-    var notes: String  // Notes for this exercise
+    var notes: String?  // Notes for this exercise (optional for migration)
     var workout: Workout?
 
     @Relationship(deleteRule: .cascade, inverse: \ExerciseSet.exercise)
