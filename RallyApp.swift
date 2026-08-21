@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 @main
-struct VoiceLiftApp: App {
+struct RallyApp: App {
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @State private var showSplash = true
 

@@ -13,7 +13,7 @@
 		DD0000030000000000000001 /* GhostSetService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0000040000000000000001 /* GhostSetService.swift */; };
 		DD0000050000000000000001 /* GhostSetViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0000060000000000000001 /* GhostSetViews.swift */; };
 		33BF94209D4FAC90A3816B13 /* SpeechRecognitionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C519EC5ED01F034638EDD852 /* SpeechRecognitionService.swift */; };
-		AA0000010000000000000001 /* VoiceLiftApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000020000000000000001 /* VoiceLiftApp.swift */; };
+		AA0000010000000000000001 /* RallyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000020000000000000001 /* RallyApp.swift */; };
 		AA0000070000000000000001 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA0000080000000000000001 /* Preview Assets.xcassets */; };
 		AA0000090000000000000001 /* Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000A0000000000000001 /* Workout.swift */; };
 		AA00000B0000000000000001 /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000C0000000000000001 /* Exercise.swift */; };
@@ -56,7 +56,7 @@
 		6D572A825F80D7F3B0A89FE4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		783BB33C5C00BC5C3F307480 /* OfflineWorkoutParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineWorkoutParser.swift; sourceTree = "<group>"; };
 		A576C63563D1BCBD4EF37FA7 /* MediaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaService.swift; sourceTree = "<group>"; };
-		AA0000020000000000000001 /* VoiceLiftApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceLiftApp.swift; sourceTree = "<group>"; };
+		AA0000020000000000000001 /* RallyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RallyApp.swift; sourceTree = "<group>"; };
 		AA0000080000000000000001 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		AA00000A0000000000000001 /* Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workout.swift; sourceTree = "<group>"; };
 		AA00000C0000000000000001 /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
@@ -72,7 +72,7 @@
 		AA00001E0000000000000001 /* ChartViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViews.swift; sourceTree = "<group>"; };
 		AA0000200000000000000001 /* ExerciseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCard.swift; sourceTree = "<group>"; };
 		AA0000220000000000000001 /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
-		AA0000230000000000000001 /* VoiceLift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoiceLift.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA0000230000000000000001 /* Rally.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rally.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA0000240000000000000001 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AA0000250000000000000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA00003A0000000000000001 /* GPTParserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTParserService.swift; sourceTree = "<group>"; };
@@ -121,7 +121,7 @@
 		AA0000280000000000000001 = {
 			isa = PBXGroup;
 			children = (
-				AA0000020000000000000001 /* VoiceLiftApp.swift */,
+				AA0000020000000000000001 /* RallyApp.swift */,
 				AA00002A0000000000000001 /* Views */,
 				AA00002B0000000000000001 /* Models */,
 				AA00002C0000000000000001 /* Services */,
@@ -134,7 +134,7 @@
 		AA0000290000000000000001 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AA0000230000000000000001 /* VoiceLift.app */,
+				AA0000230000000000000001 /* Rally.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -221,9 +221,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AA00002F0000000000000001 /* VoiceLift */ = {
+		AA00002F0000000000000001 /* Rally */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AA0000300000000000000001 /* Build configuration list for PBXNativeTarget "VoiceLift" */;
+			buildConfigurationList = AA0000300000000000000001 /* Build configuration list for PBXNativeTarget "Rally" */;
 			buildPhases = (
 				AA0000310000000000000001 /* Sources */,
 				AA0000260000000000000001 /* Frameworks */,
@@ -233,9 +233,9 @@
 			);
 			dependencies = (
 			);
-			name = VoiceLift;
-			productName = VoiceLift;
-			productReference = AA0000230000000000000001 /* VoiceLift.app */;
+			name = Rally;
+			productName = Rally;
+			productReference = AA0000230000000000000001 /* Rally.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -253,7 +253,7 @@
 					};
 				};
 			};
-			buildConfigurationList = AA0000340000000000000001 /* Build configuration list for PBXProject "VoiceLift" */;
+			buildConfigurationList = AA0000340000000000000001 /* Build configuration list for PBXProject "Rally" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -266,7 +266,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AA00002F0000000000000001 /* VoiceLift */,
+				AA00002F0000000000000001 /* Rally */,
 			);
 		};
 /* End PBXProject section */
@@ -294,7 +294,7 @@
 				0F5C53927A86EFE71014131D /* MediaPickerView.swift in Sources */,
 				1DAA4833858A0CC470603F3D /* NetworkMonitor.swift in Sources */,
 				33BF94209D4FAC90A3816B13 /* SpeechRecognitionService.swift in Sources */,
-				AA0000010000000000000001 /* VoiceLiftApp.swift in Sources */,
+				AA0000010000000000000001 /* RallyApp.swift in Sources */,
 				AA0000390000000000000001 /* ContentView.swift in Sources */,
 				AA0000090000000000000001 /* Workout.swift in Sources */,
 				AA00000B0000000000000001 /* Exercise.swift in Sources */,
@@ -461,7 +461,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "VoiceLift needs microphone access to record your workout descriptions.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Rally needs microphone access to record your workout descriptions.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsMultipleScenes = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -491,7 +491,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "VoiceLift needs microphone access to record your workout descriptions.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Rally needs microphone access to record your workout descriptions.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsMultipleScenes = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -514,7 +514,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AA0000300000000000000001 /* Build configuration list for PBXNativeTarget "VoiceLift" */ = {
+		AA0000300000000000000001 /* Build configuration list for PBXNativeTarget "Rally" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AA0000370000000000000001 /* Debug */,
@@ -523,7 +523,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AA0000340000000000000001 /* Build configuration list for PBXProject "VoiceLift" */ = {
+		AA0000340000000000000001 /* Build configuration list for PBXProject "Rally" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AA0000350000000000000001 /* Debug */,
